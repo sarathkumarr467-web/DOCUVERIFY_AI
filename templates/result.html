@@ -1,0 +1,803 @@
+{% extends "base.html" %}
+
+{% block title %}Verification Result - DOCUVERIFY AI{% endblock %}
+
+{% block extra_css %}
+
+<style>
+
+    /* ==============================
+       RESULT PAGE
+    ============================== */
+
+    .result-page {
+        padding-bottom: 40px;
+    }
+
+    .result-header {
+        background: linear-gradient(
+            135deg,
+            #eef6ff,
+            #f8faff
+        );
+        border: 1px solid #dbeafe;
+        border-radius: 18px;
+        padding: 25px;
+        margin-bottom: 25px;
+    }
+
+    .result-header h1 {
+        color: #172554 !important;
+        font-size: 30px;
+        margin-bottom: 8px;
+    }
+
+    .result-header p {
+        color: #475569 !important;
+        font-size: 15px;
+    }
+
+    /* ==============================
+       TOP GRID
+    ============================== */
+
+    .result-grid {
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+        gap: 22px;
+        margin-bottom: 22px;
+    }
+
+    .result-card {
+        background: #ffffff;
+        border-radius: 18px;
+        padding: 25px;
+        border: 1px solid #e2e8f0;
+        box-shadow: 0 8px 25px rgba(15, 23, 42, 0.08);
+    }
+
+    .result-card h2 {
+        color: #172554 !important;
+        font-size: 21px;
+        margin-bottom: 18px;
+    }
+
+    /* ==============================
+       STATUS
+    ============================== */
+
+    .status-box {
+        text-align: center;
+        padding: 25px;
+        border-radius: 15px;
+        background: #f8fafc;
+    }
+
+    .status-label {
+        color: #64748b !important;
+        font-size: 14px;
+        margin-bottom: 8px;
+    }
+
+    .status-result {
+        font-size: 34px;
+        font-weight: 900;
+        margin-bottom: 8px;
+    }
+
+    .status-result.genuine {
+        color: #16a34a !important;
+    }
+
+    .status-result.suspicious {
+        color: #f59e0b !important;
+    }
+
+    .status-result.fake {
+        color: #dc2626 !important;
+    }
+
+    .risk-badge {
+        display: inline-block;
+        padding: 8px 18px;
+        border-radius: 30px;
+        font-size: 14px;
+        font-weight: 800;
+    }
+
+    .risk-low {
+        background: #dcfce7;
+        color: #15803d !important;
+    }
+
+    .risk-medium {
+        background: #fef3c7;
+        color: #b45309 !important;
+    }
+
+    .risk-high {
+        background: #fee2e2;
+        color: #b91c1c !important;
+    }
+
+    /* ==============================
+       METRICS
+    ============================== */
+
+    .metrics {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 14px;
+    }
+
+    .metric {
+        padding: 18px;
+        border-radius: 14px;
+        text-align: center;
+    }
+
+    .metric-blue {
+        background: #eff6ff;
+        border: 1px solid #bfdbfe;
+    }
+
+    .metric-green {
+        background: #f0fdf4;
+        border: 1px solid #bbf7d0;
+    }
+
+    .metric-orange {
+        background: #fff7ed;
+        border: 1px solid #fed7aa;
+    }
+
+    .metric-title {
+        color: #64748b !important;
+        font-size: 13px;
+        font-weight: 700;
+    }
+
+    .metric-value {
+        margin-top: 7px;
+        font-size: 25px;
+        font-weight: 900;
+    }
+
+    .metric-blue .metric-value {
+        color: #2563eb !important;
+    }
+
+    .metric-green .metric-value {
+        color: #16a34a !important;
+    }
+
+    .metric-orange .metric-value {
+        color: #ea580c !important;
+    }
+
+    /* ==============================
+       PIE CHART
+    ============================== */
+
+    .chart-box {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 300px;
+    }
+
+    .chart-box canvas {
+        max-width: 330px;
+        max-height: 330px;
+    }
+
+    /* ==============================
+       DOCUMENT DETAILS
+    ============================== */
+
+    .details-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+
+    .detail-item {
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 11px;
+        padding: 14px;
+    }
+
+    .detail-label {
+        font-size: 12px;
+        color: #64748b !important;
+        margin-bottom: 5px;
+        font-weight: 700;
+    }
+
+    .detail-value {
+        font-size: 15px;
+        color: #172554 !important;
+        font-weight: 700;
+        word-break: break-word;
+    }
+
+    /* ==============================
+       FINDINGS
+    ============================== */
+
+    .finding {
+        display: flex;
+        gap: 12px;
+        align-items: flex-start;
+
+        padding: 14px;
+        margin-bottom: 10px;
+
+        border-radius: 11px;
+        background: #f8fafc;
+        border-left: 4px solid #3b82f6;
+    }
+
+    .finding-icon {
+        font-size: 18px;
+    }
+
+    .finding-text {
+        color: #334155 !important;
+        font-size: 14px;
+        line-height: 1.5;
+    }
+
+    /* ==============================
+       RISK BAR
+    ============================== */
+
+    .risk-section {
+        margin-top: 20px;
+    }
+
+    .risk-top {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 8px;
+    }
+
+    .risk-top span {
+        color: #475569 !important;
+        font-size: 14px;
+        font-weight: 700;
+    }
+
+    .risk-bar {
+        height: 13px;
+        background: #e2e8f0;
+        border-radius: 20px;
+        overflow: hidden;
+    }
+
+    .risk-progress {
+        height: 100%;
+        border-radius: 20px;
+        background: linear-gradient(
+            90deg,
+            #22c55e,
+            #f59e0b,
+            #ef4444
+        );
+    }
+
+    /* ==============================
+       BUTTONS
+    ============================== */
+
+    .action-buttons {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-top: 22px;
+    }
+
+    .action-btn {
+        padding: 12px 20px;
+        border-radius: 10px;
+        text-decoration: none;
+        font-weight: 800;
+        font-size: 14px;
+        border: none;
+        cursor: pointer;
+    }
+
+    .download-btn {
+        background: #2563eb;
+        color: white !important;
+    }
+
+    .verify-btn {
+        background: #16a34a;
+        color: white !important;
+    }
+
+    .history-btn {
+        background: #7c3aed;
+        color: white !important;
+    }
+
+    .action-btn:hover {
+        transform: translateY(-2px);
+        opacity: 0.9;
+    }
+
+    /* ==============================
+       RESPONSIVE
+    ============================== */
+
+    @media (max-width: 900px) {
+
+        .result-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .metrics {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    @media (max-width: 600px) {
+
+        .details-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .result-header h1 {
+            font-size: 24px;
+        }
+    }
+
+</style>
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="result-page">
+
+    <!-- ==============================
+         HEADER
+    ============================== -->
+
+    <div class="result-header">
+
+        <h1>🔎 Document Verification Result</h1>
+
+        <p>
+            DOCUVERIFY AI analyzed the uploaded document
+            using document features and ML-based verification.
+        </p>
+
+    </div>
+
+
+    <!-- ==============================
+         TOP SECTION
+    ============================== -->
+
+    <div class="result-grid">
+
+        <!-- RESULT -->
+
+        <div class="result-card">
+
+            <h2>📋 Verification Summary</h2>
+
+            <div class="status-box">
+
+                <div class="status-label">
+                    Predicted Document Status
+                </div>
+
+                {% set result_class = result|lower %}
+
+                <div class="
+                    status-result
+                    {% if result_class == 'genuine' %}
+                        genuine
+                    {% elif result_class == 'suspicious' %}
+                        suspicious
+                    {% else %}
+                        fake
+                    {% endif %}
+                ">
+
+                    {% if result_class == "genuine" %}
+                        ✓ GENUINE
+                    {% elif result_class == "suspicious" %}
+                        ⚠ SUSPICIOUS
+                    {% else %}
+                        ✕ FAKE
+                    {% endif %}
+
+                </div>
+
+
+                {% set risk_class = risk_level|lower %}
+
+                <span class="
+                    risk-badge
+                    {% if risk_class == 'low' %}
+                        risk-low
+                    {% elif risk_class == 'medium' %}
+                        risk-medium
+                    {% else %}
+                        risk-high
+                    {% endif %}
+                ">
+
+                    Risk Level: {{ risk_level }}
+
+                </span>
+
+            </div>
+
+
+            <!-- METRICS -->
+
+            <div class="metrics">
+
+                <div class="metric metric-blue">
+
+                    <div class="metric-title">
+                        Risk Score
+                    </div>
+
+                    <div class="metric-value">
+                        {{ risk_score }}%
+                    </div>
+
+                </div>
+
+
+                <div class="metric metric-green">
+
+                    <div class="metric-title">
+                        Confidence
+                    </div>
+
+                    <div class="metric-value">
+                        {{ confidence }}%
+                    </div>
+
+                </div>
+
+
+                <div class="metric metric-orange">
+
+                    <div class="metric-title">
+                        File Type
+                    </div>
+
+                    <div class="metric-value">
+                        {{ file_type }}
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- RISK BAR -->
+
+            <div class="risk-section">
+
+                <div class="risk-top">
+
+                    <span>
+                        Risk Assessment
+                    </span>
+
+                    <span>
+                        {{ risk_score }}%
+                    </span>
+
+                </div>
+
+                <div class="risk-bar">
+
+                    <div
+                        class="risk-progress"
+                        style="width: {{ risk_score }}%;"
+                    ></div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- PIE CHART -->
+
+        <div class="result-card">
+
+            <h2>📊 Risk Visualization</h2>
+
+            <div class="chart-box">
+
+                <canvas id="riskChart"></canvas>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ==============================
+         DOCUMENT DETAILS
+    ============================== -->
+
+    <div class="result-card" style="margin-bottom:22px;">
+
+        <h2>📄 Document Details</h2>
+
+        <div class="details-grid">
+
+            <div class="detail-item">
+
+                <div class="detail-label">
+                    Document Name
+                </div>
+
+                <div class="detail-value">
+                    {{ original_filename }}
+                </div>
+
+            </div>
+
+
+            <div class="detail-item">
+
+                <div class="detail-label">
+                    File Type
+                </div>
+
+                <div class="detail-value">
+                    {{ file_type }}
+                </div>
+
+            </div>
+
+
+            <div class="detail-item">
+
+                <div class="detail-label">
+                    File Size
+                </div>
+
+                <div class="detail-value">
+                    {{ file_size }} bytes
+                </div>
+
+            </div>
+
+
+            <div class="detail-item">
+
+                <div class="detail-label">
+                    Verification Status
+                </div>
+
+                <div class="detail-value">
+                    {{ result }}
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ==============================
+         ANALYSIS FINDINGS
+    ============================== -->
+
+    <div class="result-card" style="margin-bottom:22px;">
+
+        <h2>🧠 AI Analysis Findings</h2>
+
+        {% if findings %}
+
+            {% for finding in findings %}
+
+                <div class="finding">
+
+                    <div class="finding-icon">
+                        🔹
+                    </div>
+
+                    <div class="finding-text">
+                        {{ finding }}
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+        {% else %}
+
+            <div class="finding">
+
+                <div class="finding-icon">
+                    ✓
+                </div>
+
+                <div class="finding-text">
+                    No additional findings were generated.
+                </div>
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+
+    <!-- ==============================
+         ACTIONS
+    ============================== -->
+
+    <div class="result-card">
+
+        <h2>⚡ Next Actions</h2>
+
+        <div class="action-buttons">
+
+            <a
+                href="{{ url_for(
+                    'download_report',
+                    document_id=document['id']
+                ) }}"
+                class="action-btn download-btn"
+            >
+                📥 Download Report
+            </a>
+
+
+            <a
+                href="{{ url_for('upload_page') }}"
+                class="action-btn verify-btn"
+            >
+                🔍 Verify Another Document
+            </a>
+
+
+            <a
+                href="{{ url_for('history') }}"
+                class="action-btn history-btn"
+            >
+                🕘 View History
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ==============================
+     CHART.JS
+============================== -->
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+    const riskScore =
+        Number("{{ risk_score|default(0) }}");
+
+    const safeRisk =
+        Math.min(
+            Math.max(riskScore, 0),
+            100
+        );
+
+    const remaining =
+        100 - safeRisk;
+
+
+    const ctx =
+        document
+        .getElementById("riskChart");
+
+
+    new Chart(ctx, {
+
+        type: "doughnut",
+
+        data: {
+
+            labels: [
+                "Risk Score",
+                "Remaining"
+            ],
+
+            datasets: [{
+
+                data: [
+                    safeRisk,
+                    remaining
+                ],
+
+                backgroundColor: [
+                    "#ef4444",
+                    "#e2e8f0"
+                ],
+
+                borderWidth: 3,
+
+                borderColor: "#ffffff"
+
+            }]
+
+        },
+
+        options: {
+
+            responsive: true,
+
+            maintainAspectRatio: true,
+
+            cutout: "65%",
+
+            plugins: {
+
+                legend: {
+
+                    position: "bottom",
+
+                    labels: {
+
+                        color: "#334155",
+
+                        font: {
+                            size: 13,
+                            weight: "bold"
+                        },
+
+                        padding: 18
+
+                    }
+
+                },
+
+                tooltip: {
+
+                    callbacks: {
+
+                        label: function(context) {
+
+                            return (
+                                context.label +
+                                ": " +
+                                context.raw +
+                                "%"
+                            );
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        }
+
+    });
+
+</script>
+
+{% endblock %}

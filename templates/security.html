@@ -1,0 +1,355 @@
+{% extends "base.html" %}
+
+{% block title %}
+Security - DOCUVERIFY AI
+{% endblock %}
+
+{% block content %}
+
+<h1>🛡️ Security</h1>
+
+<p style="
+    color:#6b7280;
+    margin:10px 0 25px;
+">
+    Security and protection measures used by DOCUVERIFY AI.
+</p>
+
+
+<!-- ================= SECURITY OVERVIEW ================= -->
+
+<div style="
+    background:white;
+    padding:30px;
+    border-radius:16px;
+    box-shadow:0 5px 20px rgba(0,0,0,0.06);
+    margin-bottom:25px;
+">
+
+    <h2 style="
+        color:#1e293b;
+        margin-bottom:10px;
+    ">
+        🔐 Document Security
+    </h2>
+
+    <p style="
+        color:#64748b;
+        line-height:1.7;
+    ">
+        DOCUVERIFY AI applies multiple validation and
+        protection checks when documents are uploaded
+        and analyzed.
+    </p>
+
+</div>
+
+
+<!-- ================= SECURITY FEATURES ================= -->
+
+<div style="
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:20px;
+">
+
+
+    <!-- FILE VALIDATION -->
+
+    <div style="
+        background:white;
+        padding:25px;
+        border-radius:14px;
+        box-shadow:0 5px 20px rgba(0,0,0,0.06);
+    ">
+
+        <div style="
+            font-size:35px;
+            margin-bottom:15px;
+        ">
+            📁
+        </div>
+
+        <h3 style="
+            color:#1e293b;
+            margin-bottom:10px;
+        ">
+            Secure Filename Handling
+        </h3>
+
+        <p style="
+            color:#64748b;
+            line-height:1.6;
+        ">
+            Uploaded filenames are processed using secure
+            filename handling before files are stored.
+        </p>
+
+        <div style="
+            margin-top:15px;
+            color:#16a34a;
+            font-weight:bold;
+        ">
+            ✅ Protected
+        </div>
+
+    </div>
+
+
+    <!-- FILE TYPE -->
+
+    <div style="
+        background:white;
+        padding:25px;
+        border-radius:14px;
+        box-shadow:0 5px 20px rgba(0,0,0,0.06);
+    ">
+
+        <div style="
+            font-size:35px;
+            margin-bottom:15px;
+        ">
+            📄
+        </div>
+
+        <h3 style="
+            color:#1e293b;
+            margin-bottom:10px;
+        ">
+            File Type Validation
+        </h3>
+
+        <p style="
+            color:#64748b;
+            line-height:1.6;
+        ">
+            Only supported file extensions are accepted
+            for document analysis.
+        </p>
+
+        <div style="
+            margin-top:15px;
+            color:#16a34a;
+            font-weight:bold;
+        ">
+            ✅ Validated
+        </div>
+
+    </div>
+
+
+    <!-- FILE SIZE -->
+
+    <div style="
+        background:white;
+        padding:25px;
+        border-radius:14px;
+        box-shadow:0 5px 20px rgba(0,0,0,0.06);
+    ">
+
+        <div style="
+            font-size:35px;
+            margin-bottom:15px;
+        ">
+            📦
+        </div>
+
+        <h3 style="
+            color:#1e293b;
+            margin-bottom:10px;
+        ">
+            File Size Protection
+        </h3>
+
+        <p style="
+            color:#64748b;
+            line-height:1.6;
+        ">
+            The application limits uploaded files to
+            a maximum size of 16 MB.
+        </p>
+
+        <div style="
+            margin-top:15px;
+            color:#16a34a;
+            font-weight:bold;
+        ">
+            ✅ 16 MB Limit
+        </div>
+
+    </div>
+
+
+    <!-- LOGIN -->
+
+    <div style="
+        background:white;
+        padding:25px;
+        border-radius:14px;
+        box-shadow:0 5px 20px rgba(0,0,0,0.06);
+    ">
+
+        <div style="
+            font-size:35px;
+            margin-bottom:15px;
+        ">
+            🔑
+        </div>
+
+        <h3 style="
+            color:#1e293b;
+            margin-bottom:10px;
+        ">
+            Login Session Protection
+        </h3>
+
+        <p style="
+            color:#64748b;
+            line-height:1.6;
+        ">
+            Protected pages require a valid login session
+            before users can access them.
+        </p>
+
+        <div style="
+            margin-top:15px;
+            color:#16a34a;
+            font-weight:bold;
+        ">
+            ✅ Login Required
+        </div>
+
+    </div>
+
+
+    <!-- DATABASE -->
+
+    <div style="
+        background:white;
+        padding:25px;
+        border-radius:14px;
+        box-shadow:0 5px 20px rgba(0,0,0,0.06);
+    ">
+
+        <div style="
+            font-size:35px;
+            margin-bottom:15px;
+        ">
+            🗄️
+        </div>
+
+        <h3 style="
+            color:#1e293b;
+            margin-bottom:10px;
+        ">
+            Database Protection
+        </h3>
+
+        <p style="
+            color:#64748b;
+            line-height:1.6;
+        ">
+            Document information is stored in the
+            application's SQLite database.
+        </p>
+
+        <div style="
+            margin-top:15px;
+            color:#16a34a;
+            font-weight:bold;
+        ">
+            ✅ SQLite Storage
+        </div>
+
+    </div>
+
+
+    <!-- PDF -->
+
+    <div style="
+        background:white;
+        padding:25px;
+        border-radius:14px;
+        box-shadow:0 5px 20px rgba(0,0,0,0.06);
+    ">
+
+        <div style="
+            font-size:35px;
+            margin-bottom:15px;
+        ">
+            📋
+        </div>
+
+        <h3 style="
+            color:#1e293b;
+            margin-bottom:10px;
+        ">
+            Verification Reports
+        </h3>
+
+        <p style="
+            color:#64748b;
+            line-height:1.6;
+        ">
+            Analysis results can be generated as PDF
+            verification reports.
+        </p>
+
+        <div style="
+            margin-top:15px;
+            color:#16a34a;
+            font-weight:bold;
+        ">
+            ✅ Report Generation
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ================= SECURITY NOTE ================= -->
+
+<div style="
+    background:#eff6ff;
+    border:1px solid #bfdbfe;
+    padding:22px;
+    border-radius:14px;
+    margin-top:25px;
+">
+
+    <h3 style="
+        color:#1e40af;
+        margin-bottom:8px;
+    ">
+        ℹ️ Security Note
+    </h3>
+
+    <p style="
+        color:#1e3a8a;
+        line-height:1.6;
+    ">
+        DOCUVERIFY AI provides document analysis and
+        security checks as an assistance system.
+        Its verification result should not be considered
+        absolute proof of document authenticity.
+    </p>
+
+</div>
+
+
+<!-- ================= RESPONSIVE ================= -->
+
+<style>
+
+@media (max-width: 750px) {
+
+    div[style*="repeat(2,1fr)"] {
+        grid-template-columns:1fr !important;
+    }
+
+}
+
+</style>
+
+{% endblock %}

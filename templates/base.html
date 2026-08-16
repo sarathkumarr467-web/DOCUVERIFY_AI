@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        {% block title %}DOCUVERIFY AI{% endblock %}
+    </title>
+
+
+    <style>
+
+        /* =========================================
+           GLOBAL
+        ========================================= */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            background: #f1f5f9;
+
+            color: #0f172a;
+
+            min-height: 100vh;
+
+        }
+
+
+        /* =========================================
+           APP LAYOUT
+        ========================================= */
+
+        .app-container {
+
+            display: flex;
+
+            min-height: 100vh;
+
+        }
+
+
+        /* =========================================
+           SIDEBAR
+        ========================================= */
+
+        .sidebar {
+
+            width: 270px;
+
+            min-height: 100vh;
+
+            background: #ffffff;
+
+            border-right:
+                1px solid #dbeafe;
+
+            box-shadow:
+                4px 0 20px
+                rgba(15, 23, 42, 0.06);
+
+            position: fixed;
+
+            left: 0;
+
+            top: 0;
+
+            bottom: 0;
+
+            padding: 25px 15px;
+
+            z-index: 1000;
+
+        }
+
+
+        /* =========================================
+           LOGO
+        ========================================= */
+
+        .logo {
+
+            text-align: center;
+
+            margin-bottom: 28px;
+
+            padding-bottom: 20px;
+
+            border-bottom:
+                1px solid #e2e8f0;
+
+        }
+
+
+        .logo h1 {
+
+            font-size: 25px;
+
+            font-weight: 800;
+
+            color: #2563eb !important;
+
+            letter-spacing: 1px;
+
+        }
+
+
+        .logo p {
+
+            margin-top: 6px;
+
+            font-size: 12px;
+
+            color: #64748b !important;
+
+        }
+
+
+        /* =========================================
+           USER BOX
+        ========================================= */
+
+        .user-box {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #eff6ff,
+                    #f5f3ff
+                );
+
+            border:
+                1px solid #dbeafe;
+
+            border-radius: 14px;
+
+            padding: 13px;
+
+            margin-bottom: 22px;
+
+            text-align: center;
+
+        }
+
+
+        .user-box .user-name {
+
+            font-size: 16px;
+
+            font-weight: 700;
+
+            color: #0f172a !important;
+
+        }
+
+
+        .user-box .user-status {
+
+            margin-top: 5px;
+
+            font-size: 12px;
+
+            color: #16a34a !important;
+
+            font-weight: 600;
+
+        }
+
+
+        /* =========================================
+           NAVIGATION
+        ========================================= */
+
+        .nav-menu {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 7px;
+
+        }
+
+
+        .nav-link {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 13px;
+
+            text-decoration: none;
+
+            color: #334155 !important;
+
+            padding: 13px 15px;
+
+            border-radius: 11px;
+
+            font-size: 16px;
+
+            font-weight: 600;
+
+            transition: all 0.25s ease;
+
+        }
+
+
+        .nav-link:hover {
+
+            background: #eff6ff;
+
+            color: #2563eb !important;
+
+            transform: translateX(4px);
+
+        }
+
+
+        .nav-link.active {
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #dbeafe,
+                    #eef2ff
+                );
+
+            color: #2563eb !important;
+
+            border-left:
+                4px solid #2563eb;
+
+        }
+
+
+        .nav-icon {
+
+            width: 25px;
+
+            text-align: center;
+
+            font-size: 19px;
+
+        }
+
+
+        /* =========================================
+           LOGOUT
+        ========================================= */
+
+        .logout-link {
+
+            margin-top: 15px;
+
+            color: #dc2626 !important;
+
+        }
+
+
+        .logout-link:hover {
+
+            background: #fef2f2;
+
+            color: #dc2626 !important;
+
+        }
+
+
+        /* =========================================
+           MAIN CONTENT
+        ========================================= */
+
+        .main-content {
+
+            margin-left: 270px;
+
+            width:
+                calc(100% - 270px);
+
+            min-height: 100vh;
+
+            padding: 35px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #f8fafc,
+                    #eef6ff
+                );
+
+        }
+
+
+        /* =========================================
+           PAGE HEADER
+        ========================================= */
+
+        .page-header {
+
+            margin-bottom: 28px;
+
+        }
+
+
+        .page-header h1 {
+
+            font-size: 32px;
+
+            font-weight: 800;
+
+            color: #0f172a !important;
+
+        }
+
+
+        .page-header p {
+
+            margin-top: 8px;
+
+            font-size: 15px;
+
+            color: #475569 !important;
+
+        }
+
+
+        /* =========================================
+           COMMON CARDS
+        ========================================= */
+
+        .card {
+
+            background: #ffffff;
+
+            border:
+                1px solid #e2e8f0;
+
+            border-radius: 16px;
+
+            padding: 22px;
+
+            box-shadow:
+                0 8px 25px
+                rgba(15, 23, 42, 0.07);
+
+        }
+
+
+        .card h2,
+        .card h3 {
+
+            color: #0f172a !important;
+
+            margin-bottom: 10px;
+
+        }
+
+
+        .card p {
+
+            color: #475569 !important;
+
+            line-height: 1.6;
+
+        }
+
+
+        /* =========================================
+           COLOR CARDS
+        ========================================= */
+
+        .card-blue {
+
+            border-top:
+                4px solid #2563eb;
+
+        }
+
+
+        .card-green {
+
+            border-top:
+                4px solid #16a34a;
+
+        }
+
+
+        .card-yellow {
+
+            border-top:
+                4px solid #ea580c;
+
+        }
+
+
+        .card-red {
+
+            border-top:
+                4px solid #dc2626;
+
+        }
+
+
+        .card-purple {
+
+            border-top:
+                4px solid #7c3aed;
+
+        }
+
+
+        /* =========================================
+           BUTTONS
+        ========================================= */
+
+        .btn {
+
+            display: inline-block;
+
+            padding: 12px 20px;
+
+            border-radius: 9px;
+
+            border: none;
+
+            text-decoration: none;
+
+            cursor: pointer;
+
+            font-size: 15px;
+
+            font-weight: 700;
+
+            background: #2563eb;
+
+            color: #ffffff !important;
+
+            transition: 0.25s;
+
+        }
+
+
+        .btn:hover {
+
+            background: #1d4ed8;
+
+            transform:
+                translateY(-2px);
+
+        }
+
+
+        .btn-success {
+
+            background: #16a34a;
+
+        }
+
+
+        .btn-danger {
+
+            background: #dc2626;
+
+        }
+
+
+        /* =========================================
+           TABLE
+        ========================================= */
+
+        .table-container {
+
+            width: 100%;
+
+            overflow-x: auto;
+
+            background: #ffffff;
+
+            border:
+                1px solid #e2e8f0;
+
+            border-radius: 14px;
+
+            box-shadow:
+                0 5px 18px
+                rgba(15, 23, 42, 0.05);
+
+        }
+
+
+        table {
+
+            width: 100%;
+
+            border-collapse: collapse;
+
+        }
+
+
+        th {
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #eff6ff,
+                    #eef2ff
+                );
+
+            color: #1d4ed8 !important;
+
+            font-size: 14px;
+
+            font-weight: 700;
+
+            padding: 15px;
+
+            text-align: left;
+
+        }
+
+
+        td {
+
+            padding: 14px 15px;
+
+            border-top:
+                1px solid #e2e8f0;
+
+            color: #334155 !important;
+
+            font-size: 14px;
+
+        }
+
+
+        tr:hover td {
+
+            background: #f8fafc;
+
+        }
+
+
+        /* =========================================
+           INPUTS
+        ========================================= */
+
+        input,
+        select,
+        textarea {
+
+            width: 100%;
+
+            padding: 13px 15px;
+
+            background: #ffffff;
+
+            color: #0f172a !important;
+
+            border:
+                1px solid #cbd5e1;
+
+            border-radius: 9px;
+
+            font-size: 15px;
+
+            outline: none;
+
+        }
+
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+
+            border-color: #2563eb;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(37, 99, 235, 0.12);
+
+        }
+
+
+        input::placeholder,
+        textarea::placeholder {
+
+            color: #94a3b8 !important;
+
+        }
+
+
+        label {
+
+            display: block;
+
+            margin-bottom: 7px;
+
+            color: #334155 !important;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+        }
+
+
+        /* =========================================
+           ALERT
+        ========================================= */
+
+        .alert {
+
+            padding: 14px 18px;
+
+            border-radius: 10px;
+
+            margin-bottom: 20px;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+        }
+
+
+        .alert-error {
+
+            background: #fef2f2;
+
+            border:
+                1px solid #fecaca;
+
+            color: #b91c1c !important;
+
+        }
+
+
+        .alert-success {
+
+            background: #f0fdf4;
+
+            border:
+                1px solid #bbf7d0;
+
+            color: #15803d !important;
+
+        }
+
+
+        /* =========================================
+           LINKS
+        ========================================= */
+
+        a {
+
+            color: #2563eb;
+
+        }
+
+
+        a:hover {
+
+            color: #1d4ed8;
+
+        }
+
+
+        /* =========================================
+           FOOTER
+        ========================================= */
+
+        .footer {
+
+            margin-top: 40px;
+
+            padding-top: 20px;
+
+            border-top:
+                1px solid #dbeafe;
+
+            text-align: center;
+
+            color: #64748b !important;
+
+            font-size: 13px;
+
+        }
+
+
+        /* =========================================
+           MOBILE
+        ========================================= */
+
+        @media (max-width: 900px) {
+
+            .sidebar {
+
+                width: 220px;
+
+            }
+
+            .main-content {
+
+                margin-left: 220px;
+
+                width:
+                    calc(100% - 220px);
+
+                padding: 25px;
+
+            }
+
+            .nav-link {
+
+                font-size: 14px;
+
+            }
+
+        }
+
+
+        @media (max-width: 650px) {
+
+            .sidebar {
+
+                position: relative;
+
+                width: 100%;
+
+                min-height: auto;
+
+            }
+
+
+            .app-container {
+
+                display: block;
+
+            }
+
+
+            .main-content {
+
+                margin-left: 0;
+
+                width: 100%;
+
+                padding: 20px;
+
+            }
+
+
+            .nav-menu {
+
+                display: grid;
+
+                grid-template-columns:
+                    1fr 1fr;
+
+            }
+
+
+            .nav-link {
+
+                font-size: 13px;
+
+            }
+
+        }
+
+    </style>
+
+
+    {% block extra_css %}{% endblock %}
+
+</head>
+
+
+<body>
+
+
+<div class="app-container">
+
+
+    <!-- =========================================
+         SIDEBAR
+    ========================================= -->
+
+    <aside class="sidebar">
+
+
+        <div class="logo">
+
+            <h1>
+                DOCUVERIFY AI
+            </h1>
+
+            <p>
+                Intelligent Document Verification
+            </p>
+
+        </div>
+
+
+        {% if session.get("username") %}
+
+        <div class="user-box">
+
+            <div class="user-name">
+
+                👤 {{ session.get("username") }}
+
+            </div>
+
+            <div class="user-status">
+
+                ● System Active
+
+            </div>
+
+        </div>
+
+        {% endif %}
+
+
+        <!-- =====================================
+             NAVIGATION
+        ====================================== -->
+
+        <nav class="nav-menu">
+
+
+            <a
+                href="{{ url_for('dashboard') }}"
+                class="nav-link
+                {% if request.endpoint == 'dashboard' %}
+                active
+                {% endif %}"
+            >
+
+                <span class="nav-icon">
+                    🏠
+                </span>
+
+                <span>
+                    Dashboard
+                </span>
+
+            </a>
+
+
+            <a
+                href="{{ url_for('dataset_details') }}"
+                class="nav-link
+                {% if request.endpoint == 'dataset_details' %}
+                active
+                {% endif %}"
+            >
+
+                <span class="nav-icon">
+                    🗃️
+                </span>
+
+                <span>
+                    Dataset Details
+                </span>
+
+            </a>
+
+
+            <a
+                href="{{ url_for('eda') }}"
+                class="nav-link
+                {% if request.endpoint == 'eda' %}
+                active
+                {% endif %}"
+            >
+
+                <span class="nav-icon">
+                    📊
+                </span>
+
+                <span>
+                    EDA Processing
+                </span>
+
+            </a>
+
+
+            <a
+                href="{{ url_for('upload_page') }}"
+                class="nav-link
+                {% if request.endpoint == 'upload_page' %}
+                active
+                {% endif %}"
+            >
+
+                <span class="nav-icon">
+                    🔍
+                </span>
+
+                <span>
+                    Verify Document
+                </span>
+
+            </a>
+
+
+            <a
+                href="{{ url_for('reports') }}"
+                class="nav-link
+                {% if request.endpoint == 'reports' %}
+                active
+                {% endif %}"
+            >
+
+                <span class="nav-icon">
+                    📄
+                </span>
+
+                <span>
+                    Reports
+                </span>
+
+            </a>
+
+
+            <a
+                href="{{ url_for('history') }}"
+                class="nav-link
+                {% if request.endpoint == 'history' %}
+                active
+                {% endif %}"
+            >
+
+                <span class="nav-icon">
+                    🕘
+                </span>
+
+                <span>
+                    History
+                </span>
+
+            </a>
+
+
+            <a
+                href="{{ url_for('about') }}"
+                class="nav-link
+                {% if request.endpoint == 'about' %}
+                active
+                {% endif %}"
+            >
+
+                <span class="nav-icon">
+                    ℹ️
+                </span>
+
+                <span>
+                    About
+                </span>
+
+            </a>
+
+
+            <a
+                href="{{ url_for('contact') }}"
+                class="nav-link
+                {% if request.endpoint == 'contact' %}
+                active
+                {% endif %}"
+            >
+
+                <span class="nav-icon">
+                    📞
+                </span>
+
+                <span>
+                    Contact
+                </span>
+
+            </a>
+
+
+            <a
+                href="{{ url_for('logout') }}"
+                class="nav-link logout-link"
+            >
+
+                <span class="nav-icon">
+                    🚪
+                </span>
+
+                <span>
+                    Log Out
+                </span>
+
+            </a>
+
+
+        </nav>
+
+
+    </aside>
+
+
+    <!-- =========================================
+         MAIN CONTENT
+    ========================================= -->
+
+    <main class="main-content">
+
+
+        {% with messages =
+            get_flashed_messages() %}
+
+            {% if messages %}
+
+                {% for message in messages %}
+
+                    <div class="alert alert-success">
+
+                        {{ message }}
+
+                    </div>
+
+                {% endfor %}
+
+            {% endif %}
+
+        {% endwith %}
+
+
+        {% block content %}
+
+        {% endblock %}
+
+
+        <!-- =====================================
+             FOOTER
+        ====================================== -->
+
+        <div class="footer">
+
+            DOCUVERIFY AI •
+            AI-Powered Document Verification &
+            Tampering Detection
+
+        </div>
+
+
+    </main>
+
+
+</div>
+
+
+</body>
+
+</html>

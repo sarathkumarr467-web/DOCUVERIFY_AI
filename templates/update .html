@@ -1,0 +1,287 @@
+{% extends "base.html" %}
+
+{% block title %}
+Update Document - DOCUVERIFY AI
+{% endblock %}
+
+{% block page_heading %}
+Update Document
+{% endblock %}
+
+{% block content %}
+
+<style>
+
+.update-container {
+    max-width: 900px;
+    margin: 20px auto;
+}
+
+.update-header {
+    margin-bottom: 25px;
+}
+
+.update-header h1 {
+    font-size: 30px;
+    margin-bottom: 8px;
+}
+
+.update-header p {
+    color: #6b7280;
+}
+
+.update-card {
+    background: white;
+    padding: 35px;
+    border-radius: 16px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.07);
+}
+
+.upload-box {
+    border: 2px dashed #2563eb;
+    background: #eff6ff;
+    border-radius: 14px;
+    padding: 50px 25px;
+    text-align: center;
+    transition: 0.2s;
+}
+
+.upload-box:hover {
+    background: #dbeafe;
+}
+
+.upload-icon {
+    font-size: 55px;
+    margin-bottom: 15px;
+}
+
+.upload-box h2 {
+    color: #1e3a8a;
+    margin-bottom: 10px;
+}
+
+.upload-box p {
+    color: #6b7280;
+    margin-bottom: 22px;
+}
+
+.file-input {
+    display: none;
+}
+
+.file-label {
+    display: inline-block;
+    background: #2563eb;
+    color: white;
+    padding: 13px 24px;
+    border-radius: 9px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.file-label:hover {
+    background: #1d4ed8;
+}
+
+.file-name {
+    margin-top: 18px;
+    color: #374151;
+    font-size: 14px;
+}
+
+.update-btn {
+    width: 100%;
+    margin-top: 25px;
+    padding: 14px;
+    border: none;
+    border-radius: 9px;
+    background: #16a34a;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.update-btn:hover {
+    background: #15803d;
+}
+
+.allowed {
+    margin-top: 20px;
+    padding: 15px;
+    background: #f9fafb;
+    border-radius: 10px;
+    color: #6b7280;
+    font-size: 13px;
+    line-height: 1.8;
+}
+
+.error-message {
+    background: #fee2e2;
+    color: #991b1b;
+    padding: 12px 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.success-message {
+    background: #dcfce7;
+    color: #166534;
+    padding: 12px 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+</style>
+
+
+<div class="update-container">
+
+    <div class="update-header">
+
+        <h1>
+            🔄 Update Document
+        </h1>
+
+        <p>
+            Upload a new version of your document
+            for verification and risk analysis.
+        </p>
+
+    </div>
+
+
+    <div class="update-card">
+
+        {% if error %}
+
+        <div class="error-message">
+            ❌ {{ error }}
+        </div>
+
+        {% endif %}
+
+
+        {% if success %}
+
+        <div class="success-message">
+            ✅ {{ success }}
+        </div>
+
+        {% endif %}
+
+
+        <form
+            action="{{ url_for('update_document') }}"
+            method="POST"
+            enctype="multipart/form-data"
+        >
+
+            <div class="upload-box">
+
+                <div class="upload-icon">
+                    📄
+                </div>
+
+                <h2>
+                    Select Updated Document
+                </h2>
+
+                <p>
+                    Choose the updated document from your computer.
+                </p>
+
+
+                <label
+                    for="document"
+                    class="file-label"
+                >
+                    📁 Choose File
+                </label>
+
+
+                <input
+                    type="file"
+                    id="document"
+                    name="document"
+                    class="file-input"
+                    accept=".pdf,.png,.jpg,.jpeg,.docx,.txt"
+                    required
+                >
+
+
+                <div
+                    class="file-name"
+                    id="fileName"
+                >
+                    No file selected
+                </div>
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="update-btn"
+            >
+                🔍 Update & Analyze Document
+            </button>
+
+
+            <div class="allowed">
+
+                <strong>
+                    Supported formats:
+                </strong>
+
+                PDF, PNG, JPG, JPEG, DOCX, TXT
+
+                <br>
+
+                <strong>
+                    Maximum file size:
+                </strong>
+
+                16 MB
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<script>
+
+const fileInput =
+    document.getElementById("document");
+
+const fileName =
+    document.getElementById("fileName");
+
+
+fileInput.addEventListener(
+    "change",
+    function () {
+
+        if (this.files.length > 0) {
+
+            fileName.textContent =
+                "Selected: " +
+                this.files[0].name;
+
+        } else {
+
+            fileName.textContent =
+                "No file selected";
+
+        }
+
+    }
+);
+
+</script>
+
+{% endblock %}

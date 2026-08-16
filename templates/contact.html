@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Contact - DOCUVERIFY AI</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background:
+                radial-gradient(
+                    circle at top left,
+                    rgba(37, 99, 235, 0.18),
+                    transparent 35%
+                ),
+                radial-gradient(
+                    circle at bottom right,
+                    rgba(124, 58, 237, 0.15),
+                    transparent 35%
+                ),
+                #f5f7fb;
+            color: #172033;
+        }
+
+        /* =================================================
+           MAIN CONTAINER
+        ================================================= */
+
+        .page {
+            min-height: 100vh;
+            padding: 35px;
+        }
+
+        /* =================================================
+           HEADER
+        ================================================= */
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .logo {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: linear-gradient(
+                135deg,
+                #2563eb,
+                #7c3aed
+            );
+
+            color: white;
+            font-size: 22px;
+            font-weight: bold;
+
+            box-shadow:
+                0 8px 20px rgba(
+                    37,
+                    99,
+                    235,
+                    0.25
+                );
+        }
+
+        .brand h1 {
+            font-size: 22px;
+            color: #111827;
+        }
+
+        .brand p {
+            font-size: 13px;
+            color: #64748b;
+            margin-top: 3px;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            padding: 11px 18px;
+
+            background: white;
+            color: #2563eb;
+
+            border: 1px solid #dbe3f0;
+            border-radius: 10px;
+
+            font-size: 14px;
+            font-weight: 600;
+
+            transition: 0.25s;
+        }
+
+        .back-btn:hover {
+            background: #2563eb;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* =================================================
+           MAIN GRID
+        ================================================= */
+
+        .contact-container {
+            max-width: 1200px;
+            margin: auto;
+
+            display: grid;
+            grid-template-columns:
+                0.85fr
+                1.15fr;
+
+            gap: 25px;
+        }
+
+        /* =================================================
+           LEFT INFORMATION CARD
+        ================================================= */
+
+        .info-card {
+            background: white;
+            border-radius: 20px;
+            padding: 32px;
+
+            border: 1px solid #e5eaf2;
+
+            box-shadow:
+                0 15px 40px rgba(
+                    15,
+                    23,
+                    42,
+                    0.07
+                );
+        }
+
+        .info-card h2 {
+            font-size: 28px;
+            color: #111827;
+            margin-bottom: 12px;
+        }
+
+        .info-card > p {
+            color: #64748b;
+            line-height: 1.7;
+            font-size: 15px;
+            margin-bottom: 28px;
+        }
+
+        /* =================================================
+           CONTACT ITEMS
+        ================================================= */
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+
+            padding: 16px;
+
+            background: #f8fafc;
+
+            border-radius: 14px;
+
+            margin-bottom: 13px;
+
+            border: 1px solid #edf1f7;
+
+            transition: 0.25s;
+        }
+
+        .contact-item:hover {
+            transform: translateX(5px);
+            border-color: #c7d7f5;
+        }
+
+        .contact-icon {
+            width: 43px;
+            height: 43px;
+
+            border-radius: 12px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: #eaf1ff;
+
+            color: #2563eb;
+
+            font-size: 20px;
+        }
+
+        .contact-text h3 {
+            font-size: 14px;
+            color: #334155;
+            margin-bottom: 4px;
+        }
+
+        .contact-text p {
+            font-size: 13px;
+            color: #64748b;
+        }
+
+        /* =================================================
+           RIGHT FORM CARD
+        ================================================= */
+
+        .form-card {
+            background: white;
+
+            border-radius: 20px;
+
+            padding: 32px;
+
+            border: 1px solid #e5eaf2;
+
+            box-shadow:
+                0 15px 40px rgba(
+                    15,
+                    23,
+                    42,
+                    0.07
+                );
+        }
+
+        .form-card h2 {
+            font-size: 24px;
+            color: #111827;
+            margin-bottom: 8px;
+        }
+
+        .form-description {
+            color: #64748b;
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
+
+        /* =================================================
+           ALERTS
+        ================================================= */
+
+        .alert {
+            padding: 13px 15px;
+
+            border-radius: 10px;
+
+            margin-bottom: 20px;
+
+            font-size: 14px;
+        }
+
+        .alert-error {
+            background: #fef2f2;
+            color: #b91c1c;
+            border: 1px solid #fecaca;
+        }
+
+        .alert-success {
+            background: #ecfdf5;
+            color: #047857;
+            border: 1px solid #a7f3d0;
+        }
+
+        /* =================================================
+           FORM
+        ================================================= */
+
+        .form-row {
+            display: grid;
+
+            grid-template-columns:
+                1fr
+                1fr;
+
+            gap: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            color: #334155;
+
+            margin-bottom: 7px;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+
+            padding: 13px 14px;
+
+            border: 1px solid #d9e1ec;
+
+            border-radius: 10px;
+
+            outline: none;
+
+            background: #fbfcfe;
+
+            color: #1e293b;
+
+            font-size: 14px;
+
+            transition: 0.25s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: #2563eb;
+
+            background: white;
+
+            box-shadow:
+                0 0 0 3px rgba(
+                    37,
+                    99,
+                    235,
+                    0.10
+                );
+        }
+
+        .form-group textarea {
+            min-height: 145px;
+
+            resize: vertical;
+        }
+
+        /* =================================================
+           SEND BUTTON
+        ================================================= */
+
+        .send-btn {
+            width: 100%;
+
+            padding: 14px;
+
+            border: none;
+
+            border-radius: 11px;
+
+            background: linear-gradient(
+                135deg,
+                #2563eb,
+                #4f46e5
+            );
+
+            color: white;
+
+            font-size: 15px;
+
+            font-weight: 700;
+
+            cursor: pointer;
+
+            transition: 0.25s;
+
+            box-shadow:
+                0 8px 20px rgba(
+                    37,
+                    99,
+                    235,
+                    0.20
+                );
+        }
+
+        .send-btn:hover {
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 12px 25px rgba(
+                    37,
+                    99,
+                    235,
+                    0.28
+                );
+        }
+
+        .send-btn:active {
+            transform: translateY(0);
+        }
+
+        /* =================================================
+           FLASH MESSAGE
+        ================================================= */
+
+        .flash-container {
+            max-width: 1200px;
+
+            margin: 0 auto 20px;
+        }
+
+        /* =================================================
+           FOOTER
+        ================================================= */
+
+        .footer {
+            text-align: center;
+
+            margin-top: 30px;
+
+            color: #94a3b8;
+
+            font-size: 12px;
+        }
+
+        /* =================================================
+           RESPONSIVE
+        ================================================= */
+
+        @media (max-width: 850px) {
+
+            .page {
+                padding: 20px;
+            }
+
+            .contact-container {
+                grid-template-columns: 1fr;
+            }
+
+            .header {
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+        }
+
+        @media (max-width: 550px) {
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .info-card,
+            .form-card {
+                padding: 22px;
+            }
+
+            .brand h1 {
+                font-size: 18px;
+            }
+
+            .back-btn {
+                padding: 9px 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="page">
+
+    <!-- =================================================
+         HEADER
+    ================================================= -->
+
+    <div class="header">
+
+        <div class="brand">
+
+            <div class="logo">
+                DV
+            </div>
+
+            <div>
+                <h1>DOCUVERIFY AI</h1>
+
+                <p>
+                    Intelligent Document Verification System
+                </p>
+            </div>
+
+        </div>
+
+        <a
+            href="{{ url_for('dashboard') }}"
+            class="back-btn"
+        >
+            ← Dashboard
+        </a>
+
+    </div>
+
+
+    <!-- =================================================
+         FLASH MESSAGES
+    ================================================= -->
+
+    <div class="flash-container">
+
+        {% with messages = get_flashed_messages() %}
+
+            {% if messages %}
+
+                {% for message in messages %}
+
+                    <div class="alert alert-success">
+                        ✓ {{ message }}
+                    </div>
+
+                {% endfor %}
+
+            {% endif %}
+
+        {% endwith %}
+
+
+        {% if error %}
+
+            <div class="alert alert-error">
+                ⚠ {{ error }}
+            </div>
+
+        {% endif %}
+
+    </div>
+
+
+    <!-- =================================================
+         CONTACT CONTENT
+    ================================================= -->
+
+    <div class="contact-container">
+
+
+        <!-- =================================================
+             LEFT SIDE
+        ================================================= -->
+
+        <div class="info-card">
+
+            <h2>
+                Get in Touch
+            </h2>
+
+            <p>
+                Have questions about DOCUVERIFY AI?
+                Send us a message and our team will
+                review your request.
+            </p>
+
+
+            <!-- EMAIL -->
+
+            <div class="contact-item">
+
+                <div class="contact-icon">
+                    ✉
+                </div>
+
+                <div class="contact-text">
+
+                    <h3>
+                        Email
+                    </h3>
+
+                    <p>
+                        support@docuverify.ai
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- SUPPORT -->
+
+            <div class="contact-item">
+
+                <div class="contact-icon">
+                    💬
+                </div>
+
+                <div class="contact-text">
+
+                    <h3>
+                        Support
+                    </h3>
+
+                    <p>
+                        Technical assistance available
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- RESPONSE -->
+
+            <div class="contact-item">
+
+                <div class="contact-icon">
+                    ⚡
+                </div>
+
+                <div class="contact-text">
+
+                    <h3>
+                        Response Time
+                    </h3>
+
+                    <p>
+                        Usually within 24 hours
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- SECURITY -->
+
+            <div class="contact-item">
+
+                <div class="contact-icon">
+                    🔒
+                </div>
+
+                <div class="contact-text">
+
+                    <h3>
+                        Secure Communication
+                    </h3>
+
+                    <p>
+                        Your information is handled securely
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             RIGHT SIDE FORM
+        ================================================= -->
+
+        <div class="form-card">
+
+            <h2>
+                Send us a Message
+            </h2>
+
+            <p class="form-description">
+                Fill in the details below and submit
+                your message.
+            </p>
+
+
+            <!-- =================================================
+                 CONTACT FORM
+            ================================================= -->
+
+            <form
+                method="POST"
+                action="{{ url_for('contact') }}"
+            >
+
+                <!-- NAME + EMAIL -->
+
+                <div class="form-row">
+
+                    <div class="form-group">
+
+                        <label for="name">
+                            Full Name
+                        </label>
+
+                        <input
+                            type="text"
+                            id="name"
+                            name="name"
+                            placeholder="Enter your name"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="email">
+                            Email Address
+                        </label>
+
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            placeholder="Enter your email"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <!-- SUBJECT -->
+
+                <div class="form-group">
+
+                    <label for="subject">
+                        Subject
+                    </label>
+
+                    <input
+                        type="text"
+                        id="subject"
+                        name="subject"
+                        placeholder="Enter message subject"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- MESSAGE -->
+
+                <div class="form-group">
+
+                    <label for="message">
+                        Message
+                    </label>
+
+                    <textarea
+                        id="message"
+                        name="message"
+                        placeholder="Write your message here..."
+                        required
+                    ></textarea>
+
+                </div>
+
+
+                <!-- SEND -->
+
+                <button
+                    type="submit"
+                    class="send-btn"
+                >
+                    Send Message
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- =================================================
+         FOOTER
+    ================================================= -->
+
+    <div class="footer">
+
+        © 2026 DOCUVERIFY AI ·
+        Multi-Format Explainable Document Verification
+
+    </div>
+
+</div>
+
+</body>
+</html>

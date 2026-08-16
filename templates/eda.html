@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>EDA Processing - DOCUVERIFY AI</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #eef4ff 0%,
+                    #f5f0ff 50%,
+                    #eefcfb 100%
+                );
+
+            color: #172033;
+            min-height: 100vh;
+        }
+
+        .eda-container {
+            padding: 10px 5px 40px;
+        }
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        .eda-header {
+            background: linear-gradient(
+                135deg,
+                #2563eb,
+                #7c3aed
+            );
+
+            color: white;
+
+            padding: 28px;
+
+            border-radius: 20px;
+
+            margin-bottom: 25px;
+
+            box-shadow:
+                0 10px 30px
+                rgba(37, 99, 235, 0.20);
+        }
+
+        .eda-header h1 {
+            font-size: 32px;
+            color: white;
+            margin-bottom: 8px;
+        }
+
+        .eda-header p {
+            color: #e0e7ff;
+            font-size: 15px;
+        }
+
+        /* =========================
+           SUMMARY CARDS
+        ========================= */
+
+        .summary-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 18px;
+
+            margin-bottom: 25px;
+        }
+
+        .summary-card {
+            background: rgba(255,255,255,0.95);
+
+            padding: 22px;
+
+            border-radius: 16px;
+
+            border: 1px solid #dbe4f0;
+
+            box-shadow:
+                0 8px 25px
+                rgba(30, 64, 175, 0.08);
+
+            position: relative;
+
+            overflow: hidden;
+        }
+
+        .summary-card::before {
+            content: "";
+
+            position: absolute;
+
+            left: 0;
+            top: 0;
+
+            width: 5px;
+            height: 100%;
+
+            background: #2563eb;
+        }
+
+        .summary-card:nth-child(2)::before {
+            background: #7c3aed;
+        }
+
+        .summary-card:nth-child(3)::before {
+            background: #f59e0b;
+        }
+
+        .summary-card:nth-child(4)::before {
+            background: #ef4444;
+        }
+
+        .summary-card h3 {
+            font-size: 14px;
+
+            color: #64748b;
+
+            margin-bottom: 10px;
+        }
+
+        .summary-card .value {
+            font-size: 30px;
+
+            font-weight: 800;
+
+            color: #172033;
+        }
+
+        /* =========================
+           CHART GRID
+        ========================= */
+
+        .chart-grid {
+            display: grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap: 22px;
+
+            margin-bottom: 25px;
+        }
+
+        .chart-card {
+            background: white;
+
+            border-radius: 18px;
+
+            padding: 24px;
+
+            border: 1px solid #dbe4f0;
+
+            box-shadow:
+                0 8px 30px
+                rgba(15, 23, 42, 0.08);
+        }
+
+        .chart-card h2 {
+            font-size: 20px;
+
+            color: #172033;
+
+            margin-bottom: 5px;
+        }
+
+        .chart-card p {
+            color: #64748b;
+
+            font-size: 13px;
+
+            margin-bottom: 18px;
+        }
+
+        .chart-wrapper {
+            height: 320px;
+
+            position: relative;
+        }
+
+        /* =========================
+           FULL WIDTH CHART
+        ========================= */
+
+        .full-chart {
+            background: white;
+
+            border-radius: 18px;
+
+            padding: 24px;
+
+            margin-bottom: 25px;
+
+            border: 1px solid #dbe4f0;
+
+            box-shadow:
+                0 8px 30px
+                rgba(15, 23, 42, 0.08);
+        }
+
+        .full-chart h2 {
+            color: #172033;
+
+            margin-bottom: 5px;
+        }
+
+        .full-chart p {
+            color: #64748b;
+
+            margin-bottom: 18px;
+        }
+
+        .full-chart-wrapper {
+            height: 350px;
+
+            position: relative;
+        }
+
+        /* =========================
+           DATA QUALITY
+        ========================= */
+
+        .quality-box {
+            background: white;
+
+            border-radius: 18px;
+
+            padding: 24px;
+
+            border: 1px solid #dbe4f0;
+
+            box-shadow:
+                0 8px 30px
+                rgba(15, 23, 42, 0.08);
+        }
+
+        .quality-box h2 {
+            color: #172033;
+
+            margin-bottom: 18px;
+        }
+
+        .quality-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 16px;
+        }
+
+        .quality-item {
+            padding: 18px;
+
+            border-radius: 13px;
+
+            background: #f8fafc;
+
+            border: 1px solid #e2e8f0;
+        }
+
+        .quality-item span {
+            display: block;
+
+            color: #64748b;
+
+            font-size: 13px;
+
+            margin-bottom: 7px;
+        }
+
+        .quality-item strong {
+            font-size: 22px;
+
+            color: #172033;
+        }
+
+        /* =========================
+           ERROR
+        ========================= */
+
+        .error-box {
+            background: #fff1f2;
+
+            border: 1px solid #fecdd3;
+
+            color: #be123c;
+
+            padding: 18px;
+
+            border-radius: 12px;
+
+            margin-bottom: 20px;
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media(max-width: 1000px) {
+
+            .summary-grid {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .chart-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .quality-grid {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+        }
+
+        @media(max-width: 600px) {
+
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .quality-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .eda-header h1 {
+                font-size: 25px;
+            }
+
+            .chart-wrapper {
+                height: 280px;
+            }
+
+            .full-chart-wrapper {
+                height: 280px;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="eda-container">
+
+    <!-- HEADER -->
+
+    <div class="eda-header">
+
+        <h1>📊 Exploratory Data Analysis</h1>
+
+        <p>
+            Visual analysis of the DOCUVERIFY AI dataset
+        </p>
+
+    </div>
+
+
+    {% if error %}
+
+        <div class="error-box">
+            ⚠️ {{ error }}
+        </div>
+
+    {% else %}
+
+
+    <!-- SUMMARY -->
+
+    <div class="summary-grid">
+
+        <div class="summary-card">
+
+            <h3>Total Records</h3>
+
+            <div class="value">
+                {{ rows }}
+            </div>
+
+        </div>
+
+
+        <div class="summary-card">
+
+            <h3>Total Features</h3>
+
+            <div class="value">
+                {{ columns }}
+            </div>
+
+        </div>
+
+
+        <div class="summary-card">
+
+            <h3>Missing Values</h3>
+
+            <div class="value">
+                {{ missing_values }}
+            </div>
+
+        </div>
+
+
+        <div class="summary-card">
+
+            <h3>Duplicate Rows</h3>
+
+            <div class="value">
+                {{ duplicate_rows }}
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- CHARTS -->
+
+    <div class="chart-grid">
+
+        <!-- PIE CHART -->
+
+        <div class="chart-card">
+
+            <h2>📌 Document Classification</h2>
+
+            <p>
+                Distribution of document labels
+            </p>
+
+            <div class="chart-wrapper">
+
+                <canvas id="labelPieChart"></canvas>
+
+            </div>
+
+        </div>
+
+
+        <!-- BAR CHART -->
+
+        <div class="chart-card">
+
+            <h2>📊 Label Comparison</h2>
+
+            <p>
+                Number of documents in each category
+            </p>
+
+            <div class="chart-wrapper">
+
+                <canvas id="labelBarChart"></canvas>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- FEATURE DISTRIBUTION -->
+
+    <div class="full-chart">
+
+        <h2>📈 Feature Distribution</h2>
+
+        <p>
+            Dataset feature statistics
+        </p>
+
+        <div class="full-chart-wrapper">
+
+            <canvas id="featureChart"></canvas>
+
+        </div>
+
+    </div>
+
+
+    <!-- DATA QUALITY -->
+
+    <div class="quality-box">
+
+        <h2>🔎 Dataset Quality Overview</h2>
+
+        <div class="quality-grid">
+
+            <div class="quality-item">
+
+                <span>Target Column</span>
+
+                <strong>
+                    {{ target_column }}
+                </strong>
+
+            </div>
+
+
+            <div class="quality-item">
+
+                <span>Missing Values</span>
+
+                <strong>
+                    {{ missing_values }}
+                </strong>
+
+            </div>
+
+
+            <div class="quality-item">
+
+                <span>Duplicate Rows</span>
+
+                <strong>
+                    {{ duplicate_rows }}
+                </strong>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    {% endif %}
+
+</div>
+
+
+<script>
+
+    /* =========================
+       DATA FROM FLASK
+    ========================= */
+
+    const labels =
+        {{ labels | tojson }};
+
+    const values =
+        {{ values | tojson }};
+
+
+    /* =========================
+       PIE CHART
+    ========================= */
+
+    new Chart(
+        document.getElementById(
+            "labelPieChart"
+        ),
+        {
+
+            type: "pie",
+
+            data: {
+
+                labels: labels,
+
+                datasets: [{
+
+                    data: values,
+
+                    backgroundColor: [
+                        "#2563eb",
+                        "#7c3aed",
+                        "#f59e0b",
+                        "#ef4444",
+                        "#10b981"
+                    ],
+
+                    borderColor: "#ffffff",
+
+                    borderWidth: 3
+
+                }]
+
+            },
+
+            options: {
+
+                responsive: true,
+
+                maintainAspectRatio: false,
+
+                plugins: {
+
+                    legend: {
+
+                        position: "bottom",
+
+                        labels: {
+
+                            color: "#334155",
+
+                            font: {
+                                size: 13
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        }
+    );
+
+
+    /* =========================
+       BAR CHART
+    ========================= */
+
+    new Chart(
+        document.getElementById(
+            "labelBarChart"
+        ),
+        {
+
+            type: "bar",
+
+            data: {
+
+                labels: labels,
+
+                datasets: [{
+
+                    label:
+                        "Documents",
+
+                    data: values,
+
+                    backgroundColor:
+                        "#2563eb",
+
+                    borderRadius: 8
+
+                }]
+
+            },
+
+            options: {
+
+                responsive: true,
+
+                maintainAspectRatio: false,
+
+                scales: {
+
+                    x: {
+
+                        ticks: {
+                            color: "#475569"
+                        },
+
+                        grid: {
+                            display: false
+                        }
+
+                    },
+
+                    y: {
+
+                        beginAtZero: true,
+
+                        ticks: {
+                            color: "#475569"
+                        }
+
+                    }
+
+                },
+
+                plugins: {
+
+                    legend: {
+                        display: false
+                    }
+
+                }
+
+            }
+
+        }
+    );
+
+
+    /* =========================
+       FEATURE CHART
+    ========================= */
+
+    const featureNames = [
+
+        {% for item in numeric_summary %}
+            "{{ item.name }}",
+        {% endfor %}
+
+    ];
+
+
+    const featureMeans = [
+
+        {% for item in numeric_summary %}
+            {{ item.mean }},
+        {% endfor %}
+
+    ];
+
+
+    new Chart(
+
+        document.getElementById(
+            "featureChart"
+        ),
+
+        {
+
+            type: "bar",
+
+            data: {
+
+                labels: featureNames,
+
+                datasets: [{
+
+                    label:
+                        "Mean Value",
+
+                    data: featureMeans,
+
+                    backgroundColor:
+                        "#7c3aed",
+
+                    borderRadius: 7
+
+                }]
+
+            },
+
+            options: {
+
+                responsive: true,
+
+                maintainAspectRatio: false,
+
+                scales: {
+
+                    x: {
+
+                        ticks: {
+
+                            color: "#475569",
+
+                            maxRotation: 45,
+
+                            minRotation: 20
+
+                        },
+
+                        grid: {
+                            display: false
+                        }
+
+                    },
+
+                    y: {
+
+                        beginAtZero: true,
+
+                        ticks: {
+                            color: "#475569"
+                        }
+
+                    }
+
+                },
+
+                plugins: {
+
+                    legend: {
+
+                        labels: {
+
+                            color: "#334155"
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        }
+
+    );
+
+</script>
+
+</body>
+</html>
