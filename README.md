@@ -267,3 +267,5 @@ Chennai Institute of Technology
 DocuVerify AI aims to make document verification **faster, smarter, explainable, and more accessible** using Artificial Intelligence and Machine Learning.
 
 ### 🔐 Verify Smarter. Detect Tampering. Trust Documents.
+Live link:
+https://docuverify-ai-6.onrender.com/result/23
