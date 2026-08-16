@@ -1,0 +1,639 @@
+{% extends "base.html" %}
+
+{% block title %}
+Analyze Document - DOCUVERIFY AI
+{% endblock %}
+
+
+{% block content %}
+
+<style>
+
+    .upload-header {
+        margin-bottom: 30px;
+    }
+
+    .upload-header h1 {
+        font-size: 30px;
+        margin-bottom: 8px;
+    }
+
+    .upload-header p {
+        color: #6b7280;
+    }
+
+
+    /* ================= UPLOAD LAYOUT ================= */
+
+    .upload-layout {
+
+        display: grid;
+
+        grid-template-columns: 2fr 1fr;
+
+        gap: 25px;
+
+    }
+
+
+    /* ================= UPLOAD CARD ================= */
+
+    .upload-card {
+
+        background: white;
+
+        padding: 35px;
+
+        border-radius: 16px;
+
+        box-shadow:
+            0 4px 15px rgba(0,0,0,0.06);
+
+    }
+
+
+    .upload-area {
+
+        border: 2px dashed #93c5fd;
+
+        border-radius: 15px;
+
+        padding: 55px 30px;
+
+        text-align: center;
+
+        background: #eff6ff;
+
+        transition: 0.2s;
+
+        cursor: pointer;
+
+    }
+
+
+    .upload-area:hover {
+
+        border-color: #2563eb;
+
+        background: #dbeafe;
+
+    }
+
+
+    .upload-icon {
+
+        font-size: 55px;
+
+        margin-bottom: 15px;
+
+    }
+
+
+    .upload-area h2 {
+
+        font-size: 21px;
+
+        margin-bottom: 8px;
+
+    }
+
+
+    .upload-area p {
+
+        color: #6b7280;
+
+        font-size: 14px;
+
+        margin-bottom: 20px;
+
+    }
+
+
+    /* ================= FILE INPUT ================= */
+
+    .file-input {
+
+        display: none;
+
+    }
+
+
+    .choose-button {
+
+        display: inline-block;
+
+        background: #2563eb;
+
+        color: white;
+
+        padding: 12px 22px;
+
+        border-radius: 8px;
+
+        cursor: pointer;
+
+        font-weight: bold;
+
+        font-size: 14px;
+
+    }
+
+
+    .choose-button:hover {
+
+        background: #1d4ed8;
+
+    }
+
+
+    /* ================= FILE NAME ================= */
+
+    .selected-file {
+
+        margin-top: 20px;
+
+        padding: 13px;
+
+        background: #f3f4f6;
+
+        border-radius: 8px;
+
+        display: none;
+
+        color: #374151;
+
+        font-size: 14px;
+
+    }
+
+
+    /* ================= ANALYZE BUTTON ================= */
+
+    .analyze-button {
+
+        width: 100%;
+
+        margin-top: 25px;
+
+        padding: 15px;
+
+        border: none;
+
+        border-radius: 9px;
+
+        background: #111827;
+
+        color: white;
+
+        font-size: 16px;
+
+        font-weight: bold;
+
+        cursor: pointer;
+
+    }
+
+
+    .analyze-button:hover {
+
+        background: #2563eb;
+
+    }
+
+
+    /* ================= INFO CARD ================= */
+
+    .info-card {
+
+        background: white;
+
+        padding: 28px;
+
+        border-radius: 16px;
+
+        box-shadow:
+            0 4px 15px rgba(0,0,0,0.06);
+
+    }
+
+
+    .info-card h2 {
+
+        font-size: 19px;
+
+        margin-bottom: 20px;
+
+    }
+
+
+    .feature {
+
+        display: flex;
+
+        gap: 12px;
+
+        margin-bottom: 20px;
+
+    }
+
+
+    .feature-icon {
+
+        width: 35px;
+
+        height: 35px;
+
+        flex-shrink: 0;
+
+        border-radius: 8px;
+
+        background: #eff6ff;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+    }
+
+
+    .feature h3 {
+
+        font-size: 14px;
+
+        margin-bottom: 4px;
+
+    }
+
+
+    .feature p {
+
+        font-size: 12px;
+
+        color: #6b7280;
+
+        line-height: 1.5;
+
+    }
+
+
+    /* ================= SUPPORTED ================= */
+
+    .supported {
+
+        margin-top: 25px;
+
+        padding-top: 20px;
+
+        border-top: 1px solid #e5e7eb;
+
+    }
+
+
+    .supported h3 {
+
+        font-size: 14px;
+
+        margin-bottom: 12px;
+
+    }
+
+
+    .file-types {
+
+        display: flex;
+
+        flex-wrap: wrap;
+
+        gap: 8px;
+
+    }
+
+
+    .file-type {
+
+        padding: 7px 10px;
+
+        background: #f3f4f6;
+
+        border-radius: 6px;
+
+        font-size: 12px;
+
+        color: #374151;
+
+    }
+
+
+    /* ================= RESPONSIVE ================= */
+
+    @media (max-width: 900px) {
+
+        .upload-layout {
+
+            grid-template-columns: 1fr;
+
+        }
+
+    }
+
+</style>
+
+
+<!-- ========================================================
+     HEADER
+======================================================== -->
+
+<div class="upload-header">
+
+    <h1>
+        📄 Analyze Document
+    </h1>
+
+    <p>
+        Upload a document to perform AI-powered
+        verification and risk analysis.
+    </p>
+
+</div>
+
+
+<!-- ========================================================
+     UPLOAD LAYOUT
+======================================================== -->
+
+<div class="upload-layout">
+
+
+    <!-- ====================================================
+         UPLOAD CARD
+    ==================================================== -->
+
+    <div class="upload-card">
+
+
+        <form
+            action="{{ url_for('analyze') }}"
+            method="POST"
+            enctype="multipart/form-data"
+        >
+
+
+            <!-- UPLOAD AREA -->
+
+            <label
+                for="file"
+                class="upload-area"
+            >
+
+                <div class="upload-icon">
+                    📁
+                </div>
+
+
+                <h2>
+                    Upload Your Document
+                </h2>
+
+
+                <p>
+                    Select a PDF, DOCX or image
+                    file for analysis.
+                </p>
+
+
+                <span class="choose-button">
+                    Choose Document
+                </span>
+
+
+                <input
+                    type="file"
+                    id="file"
+                    name="file"
+                    class="file-input"
+                    accept=".pdf,.docx,.png,.jpg,.jpeg"
+                    required
+                >
+
+            </label>
+
+
+            <!-- SELECTED FILE -->
+
+            <div
+                id="selectedFile"
+                class="selected-file"
+            >
+
+                📄
+                <span id="fileName">
+                    No file selected
+                </span>
+
+            </div>
+
+
+            <!-- ANALYZE -->
+
+            <button
+                type="submit"
+                class="analyze-button"
+            >
+
+                🔍 Analyze Document
+
+            </button>
+
+
+        </form>
+
+
+    </div>
+
+
+    <!-- ====================================================
+         FEATURES
+    ==================================================== -->
+
+    <div class="info-card">
+
+
+        <h2>
+            🧠 What We Analyze
+        </h2>
+
+
+        <div class="feature">
+
+            <div class="feature-icon">
+                🔎
+            </div>
+
+            <div>
+
+                <h3>
+                    Text Analysis
+                </h3>
+
+                <p>
+                    Extracts readable text and
+                    checks for suspicious indicators.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="feature">
+
+            <div class="feature-icon">
+                🔐
+            </div>
+
+            <div>
+
+                <h3>
+                    Metadata Analysis
+                </h3>
+
+                <p>
+                    Examines document metadata such
+                    as creator and modification dates.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="feature">
+
+            <div class="feature-icon">
+                🧠
+            </div>
+
+            <div>
+
+                <h3>
+                    Risk Scoring
+                </h3>
+
+                <p>
+                    Generates an explainable risk
+                    score from 0 to 100.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="feature">
+
+            <div class="feature-icon">
+                👁️
+            </div>
+
+            <div>
+
+                <h3>
+                    OCR Detection
+                </h3>
+
+                <p>
+                    Uses OCR when the document
+                    contains image-based content.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- SUPPORTED -->
+
+        <div class="supported">
+
+            <h3>
+                Supported Formats
+            </h3>
+
+
+            <div class="file-types">
+
+                <span class="file-type">
+                    PDF
+                </span>
+
+                <span class="file-type">
+                    DOCX
+                </span>
+
+                <span class="file-type">
+                    PNG
+                </span>
+
+                <span class="file-type">
+                    JPG
+                </span>
+
+                <span class="file-type">
+                    JPEG
+                </span>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+<!-- ========================================================
+     JAVASCRIPT
+======================================================== -->
+
+<script>
+
+    const fileInput =
+        document.getElementById("file");
+
+    const selectedFile =
+        document.getElementById("selectedFile");
+
+    const fileName =
+        document.getElementById("fileName");
+
+
+    fileInput.addEventListener(
+        "change",
+        function () {
+
+            if (this.files.length > 0) {
+
+                fileName.textContent =
+                    this.files[0].name;
+
+                selectedFile.style.display =
+                    "block";
+
+            } else {
+
+                selectedFile.style.display =
+                    "none";
+
+            }
+
+        }
+    );
+
+</script>
+
+
+{% endblock %}

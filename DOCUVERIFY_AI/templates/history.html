@@ -1,0 +1,271 @@
+{% extends "base.html" %}
+
+{% block title %}
+History - DOCUVERIFY AI
+{% endblock %}
+
+{% block content %}
+
+<h1>🕘 Analysis History</h1>
+
+<p style="color:#6b7280;margin:10px 0 25px;">
+    Previously analyzed documents.
+</p>
+
+
+{% if documents %}
+
+<div style="
+    background:white;
+    padding:25px;
+    border-radius:14px;
+    box-shadow:0 5px 20px rgba(0,0,0,0.06);
+    overflow-x:auto;
+">
+
+    <table style="
+        width:100%;
+        border-collapse:collapse;
+    ">
+
+        <thead>
+
+            <tr style="
+                text-align:left;
+                border-bottom:2px solid #e5e7eb;
+            ">
+
+                <th style="padding:14px;">
+                    Document
+                </th>
+
+                <th style="padding:14px;">
+                    Type
+                </th>
+
+                <th style="padding:14px;">
+                    Result
+                </th>
+
+                <th style="padding:14px;">
+                    Risk
+                </th>
+
+                <th style="padding:14px;">
+                    Score
+                </th>
+
+                <th style="padding:14px;">
+                    Date
+                </th>
+
+                <th style="padding:14px;">
+                    Action
+                </th>
+
+            </tr>
+
+        </thead>
+
+
+        <tbody>
+
+        {% for item in documents %}
+
+            <tr style="
+                border-bottom:1px solid #f1f5f9;
+            ">
+
+                <td style="padding:14px;">
+
+                    <strong>
+                        {{ item.filename }}
+                    </strong>
+
+                </td>
+
+
+                <td style="padding:14px;">
+
+                    {{ item.file_type or "-" }}
+
+                </td>
+
+
+                <td style="padding:14px;">
+
+                    {% if item.result == "Genuine" %}
+
+                        <span style="
+                            background:#dcfce7;
+                            color:#166534;
+                            padding:6px 10px;
+                            border-radius:20px;
+                            font-size:13px;
+                        ">
+                            🟢 Genuine
+                        </span>
+
+                    {% elif item.result == "Suspicious" %}
+
+                        <span style="
+                            background:#fef3c7;
+                            color:#92400e;
+                            padding:6px 10px;
+                            border-radius:20px;
+                            font-size:13px;
+                        ">
+                            🟡 Suspicious
+                        </span>
+
+                    {% else %}
+
+                        <span style="
+                            background:#fee2e2;
+                            color:#991b1b;
+                            padding:6px 10px;
+                            border-radius:20px;
+                            font-size:13px;
+                        ">
+                            🔴 Fake
+                        </span>
+
+                    {% endif %}
+
+                </td>
+
+
+                <td style="padding:14px;">
+
+                    {{ item.risk_level }}
+
+                </td>
+
+
+                <td style="padding:14px;">
+
+                    <strong>
+                        {{ "%.2f"|format(item.risk_score or 0) }}%
+                    </strong>
+
+                </td>
+
+
+                <td style="padding:14px;">
+
+                    {{ item.analyzed_at or "-" }}
+
+                </td>
+
+
+                <td style="padding:14px;">
+
+                    <a
+                        href="{{ url_for(
+                            'result',
+                            document_id=item.id
+                        ) }}"
+                        style="
+                            background:#2563eb;
+                            color:white;
+                            padding:8px 12px;
+                            text-decoration:none;
+                            border-radius:7px;
+                            font-size:13px;
+                        "
+                    >
+                        View
+                    </a>
+
+                </td>
+
+            </tr>
+
+        {% endfor %}
+
+        </tbody>
+
+    </table>
+
+
+    <div style="margin-top:25px;">
+
+        <form
+            action="{{ url_for('clear_history') }}"
+            method="POST"
+            onsubmit="
+                return confirm(
+                    'Are you sure you want to clear all history?'
+                );
+            "
+        >
+
+            <button
+                type="submit"
+                style="
+                    background:#dc2626;
+                    color:white;
+                    border:none;
+                    padding:11px 18px;
+                    border-radius:7px;
+                    cursor:pointer;
+                    font-weight:bold;
+                "
+            >
+                🗑️ Clear History
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+{% else %}
+
+<div style="
+    background:white;
+    padding:50px;
+    text-align:center;
+    border-radius:14px;
+    box-shadow:0 5px 20px rgba(0,0,0,0.06);
+">
+
+    <div style="font-size:50px;">
+        📄
+    </div>
+
+    <h2 style="margin-top:15px;">
+        No History
+    </h2>
+
+    <p style="
+        color:#6b7280;
+        margin-top:10px;
+    ">
+        You haven't analyzed any documents yet.
+    </p>
+
+    <br>
+
+    <a
+        href="{{ url_for('upload_page') }}"
+        style="
+            display:inline-block;
+            background:#2563eb;
+            color:white;
+            padding:12px 20px;
+            text-decoration:none;
+            border-radius:8px;
+            font-weight:bold;
+        "
+    >
+        📄 Analyze Document
+    </a>
+
+</div>
+
+{% endif %}
+
+{% endblock %}

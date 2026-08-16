@@ -1,0 +1,321 @@
+{% extends "base.html" %}
+
+{% block title %}
+DOCUVERIFY AI - Dashboard
+{% endblock %}
+
+{% block content %}
+
+<style>
+    .dashboard-container {
+        padding: 25px;
+    }
+
+    .hero {
+        background: linear-gradient(135deg, #2563eb, #7c3aed);
+        color: white;
+        padding: 30px;
+        border-radius: 20px;
+        margin-bottom: 25px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+    }
+
+    .hero h1 {
+        font-size: 32px;
+        margin-bottom: 8px;
+        font-weight: 800;
+    }
+
+    .hero p {
+        font-size: 17px;
+        margin: 0;
+        opacity: 0.95;
+    }
+
+    .section-title {
+        font-size: 23px;
+        font-weight: 750;
+        margin: 25px 0 15px;
+        color: #1e293b;
+    }
+
+    .cards {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+    }
+
+    .info-card {
+        padding: 25px;
+        border-radius: 18px;
+        min-height: 190px;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+        transition: 0.25s;
+    }
+
+    .info-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 14px 28px rgba(0,0,0,0.12);
+    }
+
+    .purpose {
+        background: linear-gradient(135deg, #dbeafe, #eff6ff);
+        border-left: 6px solid #2563eb;
+    }
+
+    .innovation {
+        background: linear-gradient(135deg, #ede9fe, #f5f3ff);
+        border-left: 6px solid #7c3aed;
+    }
+
+    .formats {
+        background: linear-gradient(135deg, #dcfce7, #f0fdf4);
+        border-left: 6px solid #16a34a;
+    }
+
+    .process {
+        background: linear-gradient(135deg, #ffedd5, #fff7ed);
+        border-left: 6px solid #ea580c;
+    }
+
+    .info-card h3 {
+        font-size: 21px;
+        margin-top: 0;
+        margin-bottom: 15px;
+        color: #172033;
+    }
+
+    .info-card p {
+        font-size: 15px;
+        line-height: 1.7;
+        color: #475569;
+    }
+
+    .info-card ul {
+        padding-left: 20px;
+        margin: 0;
+    }
+
+    .info-card li {
+        margin-bottom: 10px;
+        font-size: 15px;
+        color: #334155;
+        line-height: 1.5;
+    }
+
+    .format-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 15px;
+    }
+
+    .format {
+        background: white;
+        padding: 9px 15px;
+        border-radius: 10px;
+        font-weight: 700;
+        font-size: 14px;
+        box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+    }
+
+    .process-flow {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 10px;
+        margin-top: 15px;
+    }
+
+    .step {
+        background: white;
+        padding: 12px 17px;
+        border-radius: 12px;
+        font-weight: 700;
+        color: #9a3412;
+        box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+    }
+
+    .arrow {
+        font-size: 20px;
+        font-weight: bold;
+        color: #ea580c;
+    }
+
+    .footer-note {
+        margin-top: 25px;
+        padding: 18px;
+        text-align: center;
+        background: #f8fafc;
+        border-radius: 15px;
+        color: #64748b;
+        font-size: 14px;
+    }
+
+    @media (max-width: 900px) {
+        .cards {
+            grid-template-columns: 1fr;
+        }
+
+        .hero h1 {
+            font-size: 26px;
+        }
+    }
+</style>
+
+
+<div class="dashboard-container">
+
+    <!-- HERO -->
+    <div class="hero">
+
+        <h1>📄 DOCUVERIFY AI</h1>
+
+        <p>
+            AI-Powered Document Verification & Tampering Detection
+        </p>
+
+    </div>
+
+
+    <!-- PROJECT PURPOSE -->
+    <h2 class="section-title">
+        🎯 Project Purpose
+    </h2>
+
+    <div class="cards">
+
+        <div class="info-card purpose">
+
+            <h3>🔍 Why DOCUVERIFY AI?</h3>
+
+            <p>
+                DOCUVERIFY AI helps verify digital documents
+                automatically by analyzing their content,
+                structure and suspicious patterns.
+            </p>
+
+            <ul>
+                <li>Verify uploaded documents.</li>
+                <li>Identify suspicious patterns.</li>
+                <li>Detect possible tampering.</li>
+                <li>Provide risk and confidence scores.</li>
+            </ul>
+
+        </div>
+
+
+        <!-- INNOVATION -->
+        <div class="info-card innovation">
+
+            <h3>💡 Innovation Ideas</h3>
+
+            <ul>
+                <li>🔍 Multi-format document verification</li>
+
+                <li>🤖 ML-based document classification</li>
+
+                <li>🧠 Explainable verification results</li>
+
+                <li>📊 Automated risk scoring</li>
+
+                <li>📝 Automatic verification reports</li>
+
+                <li>🔐 Document verification history</li>
+            </ul>
+
+        </div>
+
+
+        <!-- DATA FORMATS -->
+        <div class="info-card formats">
+
+            <h3>📁 Supported Data Formats</h3>
+
+            <p>
+                Users can upload different document
+                and image formats for verification.
+            </p>
+
+            <div class="format-list">
+
+                <span class="format">PDF</span>
+
+                <span class="format">DOCX</span>
+
+                <span class="format">TXT</span>
+
+                <span class="format">PNG</span>
+
+                <span class="format">JPG</span>
+
+                <span class="format">JPEG</span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- PROCESS -->
+    <h2 class="section-title">
+        ⚙️ Verification Process
+    </h2>
+
+    <div class="info-card process">
+
+        <h3>🚀 How DOCUVERIFY AI Works</h3>
+
+        <div class="process-flow">
+
+            <div class="step">
+                📤 Upload
+            </div>
+
+            <div class="arrow">→</div>
+
+            <div class="step">
+                📄 Extract
+            </div>
+
+            <div class="arrow">→</div>
+
+            <div class="step">
+                🔎 Analyze
+            </div>
+
+            <div class="arrow">→</div>
+
+            <div class="step">
+                🤖 ML Prediction
+            </div>
+
+            <div class="arrow">→</div>
+
+            <div class="step">
+                📊 Risk Score
+            </div>
+
+            <div class="arrow">→</div>
+
+            <div class="step">
+                📝 Report
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- FOOTER -->
+    <div class="footer-note">
+
+        <strong>DOCUVERIFY AI</strong> —
+        Verify Smarter. Detect Tampering. Trust Documents.
+
+    </div>
+
+</div>
+
+{% endblock %}

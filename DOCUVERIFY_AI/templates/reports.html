@@ -1,0 +1,415 @@
+{% extends "base.html" %}
+
+{% block title %}
+Reports - DOCUVERIFY AI
+{% endblock %}
+
+{% block content %}
+
+<h1>📋 Reports</h1>
+
+<p style="
+    color:#6b7280;
+    margin:10px 0 25px;
+">
+    Document analysis reports and verification results.
+</p>
+
+
+<!-- ================= REPORT SUMMARY ================= -->
+
+<div style="
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:20px;
+    margin-bottom:25px;
+">
+
+
+    <!-- TOTAL REPORTS -->
+
+    <div style="
+        background:white;
+        padding:25px;
+        border-radius:14px;
+        box-shadow:0 5px 20px rgba(0,0,0,0.06);
+        border-left:5px solid #2563eb;
+    ">
+
+        <div style="font-size:32px;">
+            📊
+        </div>
+
+        <p style="
+            color:#64748b;
+            margin-top:10px;
+        ">
+            Total Reports
+        </p>
+
+        <h1 style="
+            color:#1e293b;
+            margin-top:5px;
+        ">
+            {{ documents|length }}
+        </h1>
+
+    </div>
+
+
+    <!-- STATUS -->
+
+    <div style="
+        background:white;
+        padding:25px;
+        border-radius:14px;
+        box-shadow:0 5px 20px rgba(0,0,0,0.06);
+        border-left:5px solid #16a34a;
+    ">
+
+        <div style="font-size:32px;">
+            📄
+        </div>
+
+        <p style="
+            color:#64748b;
+            margin-top:10px;
+        ">
+            Report Status
+        </p>
+
+        <h2 style="
+            color:#166534;
+            margin-top:5px;
+        ">
+            Analysis Available
+        </h2>
+
+    </div>
+
+</div>
+
+
+<!-- ================= REPORT LIST ================= -->
+
+<div style="
+    background:white;
+    padding:30px;
+    border-radius:14px;
+    box-shadow:0 5px 20px rgba(0,0,0,0.06);
+">
+
+    <h2 style="
+        color:#1e293b;
+        margin-bottom:20px;
+    ">
+        📑 Analysis Reports
+    </h2>
+
+
+    {% if documents %}
+
+
+        {% for report in documents %}
+
+        <div style="
+            padding:20px;
+            border:1px solid #e5e7eb;
+            border-radius:12px;
+            margin-bottom:15px;
+            background:#fafafa;
+        ">
+
+
+            <!-- HEADER -->
+
+            <div style="
+                display:flex;
+                justify-content:space-between;
+                align-items:center;
+                gap:15px;
+                flex-wrap:wrap;
+            ">
+
+                <div>
+
+                    <h3 style="
+                        color:#1e293b;
+                        margin-bottom:6px;
+                    ">
+
+                        📄 {{ report.filename }}
+
+                    </h3>
+
+                    <p style="
+                        color:#64748b;
+                        font-size:13px;
+                    ">
+
+                        {{ report.file_type or "Unknown" }}
+
+                        |
+
+                        {{ report.analyzed_at or "-" }}
+
+                    </p>
+
+                </div>
+
+
+                <!-- RESULT -->
+
+                <div>
+
+                    {% if report.result == "Genuine" %}
+
+                    <span style="
+                        background:#dcfce7;
+                        color:#166534;
+                        padding:7px 12px;
+                        border-radius:20px;
+                        font-size:13px;
+                        font-weight:bold;
+                    ">
+                        🟢 Genuine
+                    </span>
+
+                    {% elif report.result == "Suspicious" %}
+
+                    <span style="
+                        background:#fef3c7;
+                        color:#92400e;
+                        padding:7px 12px;
+                        border-radius:20px;
+                        font-size:13px;
+                        font-weight:bold;
+                    ">
+                        🟡 Suspicious
+                    </span>
+
+                    {% else %}
+
+                    <span style="
+                        background:#fee2e2;
+                        color:#991b1b;
+                        padding:7px 12px;
+                        border-radius:20px;
+                        font-size:13px;
+                        font-weight:bold;
+                    ">
+                        🔴 Fake
+                    </span>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+
+            <hr style="
+                margin:18px 0;
+                border:none;
+                border-top:1px solid #e5e7eb;
+            ">
+
+
+            <!-- DETAILS -->
+
+            <div style="
+                display:grid;
+                grid-template-columns:
+                    repeat(3,1fr);
+                gap:15px;
+            ">
+
+
+                <div>
+
+                    <small style="
+                        color:#64748b;
+                    ">
+                        Risk Level
+                    </small>
+
+                    <p style="
+                        margin-top:5px;
+                        font-weight:bold;
+                    ">
+                        {{ report.risk_level }}
+                    </p>
+
+                </div>
+
+
+                <div>
+
+                    <small style="
+                        color:#64748b;
+                    ">
+                        Risk Score
+                    </small>
+
+                    <p style="
+                        margin-top:5px;
+                        font-weight:bold;
+                    ">
+                        {{ "%.2f"|format(
+                            report.risk_score or 0
+                        ) }}%
+                    </p>
+
+                </div>
+
+
+                <div>
+
+                    <small style="
+                        color:#64748b;
+                    ">
+                        Confidence
+                    </small>
+
+                    <p style="
+                        margin-top:5px;
+                        font-weight:bold;
+                    ">
+                        {{ "%.2f"|format(
+                            report.confidence or 0
+                        ) }}%
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- ACTIONS -->
+
+            <div style="
+                margin-top:20px;
+                display:flex;
+                gap:10px;
+                flex-wrap:wrap;
+            ">
+
+
+                <a
+                    href="{{ url_for(
+                        'result',
+                        document_id=report.id
+                    ) }}"
+                    style="
+                        background:#2563eb;
+                        color:white;
+                        padding:10px 16px;
+                        text-decoration:none;
+                        border-radius:8px;
+                        font-size:14px;
+                        font-weight:bold;
+                    "
+                >
+                    👁️ View Report
+                </a>
+
+
+                <a
+                    href="{{ url_for(
+                        'download_report',
+                        document_id=report.id
+                    ) }}"
+                    style="
+                        background:#16a34a;
+                        color:white;
+                        padding:10px 16px;
+                        text-decoration:none;
+                        border-radius:8px;
+                        font-size:14px;
+                        font-weight:bold;
+                    "
+                >
+                    📥 Download PDF
+                </a>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+
+    {% else %}
+
+
+        <!-- NO REPORTS -->
+
+        <div style="
+            text-align:center;
+            padding:50px 20px;
+        ">
+
+            <div style="
+                font-size:55px;
+            ">
+                📄
+            </div>
+
+            <h2 style="
+                margin-top:15px;
+                color:#1e293b;
+            ">
+                No Reports Available
+            </h2>
+
+            <p style="
+                margin-top:10px;
+                color:#6b7280;
+            ">
+                Analyze a document to generate your first report.
+            </p>
+
+            <br>
+
+            <a
+                href="{{ url_for('upload_page') }}"
+                style="
+                    display:inline-block;
+                    background:#2563eb;
+                    color:white;
+                    padding:12px 20px;
+                    text-decoration:none;
+                    border-radius:8px;
+                    font-weight:bold;
+                "
+            >
+                📄 Analyze Document
+            </a>
+
+        </div>
+
+
+    {% endif %}
+
+</div>
+
+
+<!-- ================= RESPONSIVE ================= -->
+
+<style>
+
+@media (max-width: 800px) {
+
+    div[style*="repeat(2,1fr)"] {
+        grid-template-columns:1fr !important;
+    }
+
+    div[style*="repeat(3,1fr)"] {
+        grid-template-columns:1fr !important;
+    }
+
+}
+
+</style>
+
+{% endblock %}

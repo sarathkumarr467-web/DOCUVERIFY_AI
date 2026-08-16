@@ -1,0 +1,610 @@
+{% extends "base.html" %}
+
+{% block title %}
+Login - DOCUVERIFY AI
+{% endblock %}
+
+{% block page_heading %}
+Login
+{% endblock %}
+
+{% block content %}
+
+<style>
+
+    /* ================= LOGIN PAGE ================= */
+
+    .login-wrapper {
+        min-height: calc(100vh - 100px);
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        padding: 30px 20px;
+    }
+
+    .login-card {
+        width: 100%;
+        max-width: 440px;
+
+        background: #ffffff;
+
+        padding: 38px;
+
+        border-radius: 18px;
+
+        box-shadow:
+            0 10px 35px rgba(0, 0, 0, 0.08);
+
+        border: 1px solid #e5e7eb;
+    }
+
+    /* ================= HEADER ================= */
+
+    .login-logo {
+        text-align: center;
+
+        margin-bottom: 28px;
+    }
+
+    .login-logo .icon {
+        width: 70px;
+        height: 70px;
+
+        margin: 0 auto 15px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        background: #eff6ff;
+
+        border-radius: 18px;
+
+        font-size: 36px;
+    }
+
+    .login-logo h1 {
+        font-size: 27px;
+
+        color: #111827;
+
+        margin-bottom: 7px;
+    }
+
+    .login-logo p {
+        color: #6b7280;
+
+        font-size: 14px;
+    }
+
+    /* ================= ERROR ================= */
+
+    .error-message {
+        background: #fee2e2;
+
+        color: #991b1b;
+
+        border: 1px solid #fecaca;
+
+        padding: 12px 14px;
+
+        border-radius: 9px;
+
+        margin-bottom: 20px;
+
+        font-size: 14px;
+    }
+
+    /* ================= FORM ================= */
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group label {
+        display: block;
+
+        margin-bottom: 8px;
+
+        font-weight: 600;
+
+        color: #374151;
+
+        font-size: 14px;
+    }
+
+    .input-wrapper {
+        position: relative;
+    }
+
+    .form-input {
+        width: 100%;
+
+        padding: 13px 14px;
+
+        border: 1px solid #d1d5db;
+
+        border-radius: 9px;
+
+        font-size: 15px;
+
+        color: #111827;
+
+        background: #ffffff;
+
+        transition: 0.2s;
+    }
+
+    .form-input:focus {
+        outline: none;
+
+        border-color: #2563eb;
+
+        box-shadow:
+            0 0 0 3px rgba(37, 99, 235, 0.12);
+    }
+
+    .password-input {
+        padding-right: 55px;
+    }
+
+    .show-password {
+        position: absolute;
+
+        right: 12px;
+
+        top: 50%;
+
+        transform: translateY(-50%);
+
+        border: none;
+
+        background: transparent;
+
+        cursor: pointer;
+
+        font-size: 18px;
+
+        color: #6b7280;
+    }
+
+    .show-password:hover {
+        color: #2563eb;
+    }
+
+    /* ================= HINT ================= */
+
+    .input-hint {
+        margin-top: 6px;
+
+        font-size: 12px;
+
+        color: #6b7280;
+
+        line-height: 1.5;
+    }
+
+    .counter {
+        float: right;
+
+        color: #9ca3af;
+    }
+
+    /* ================= LOGIN BUTTON ================= */
+
+    .login-btn {
+        width: 100%;
+
+        padding: 14px;
+
+        margin-top: 5px;
+
+        border: none;
+
+        border-radius: 9px;
+
+        background: #2563eb;
+
+        color: white;
+
+        font-size: 16px;
+
+        font-weight: 700;
+
+        cursor: pointer;
+
+        transition: 0.2s;
+    }
+
+    .login-btn:hover {
+        background: #1d4ed8;
+
+        transform: translateY(-1px);
+    }
+
+    .login-btn:active {
+        transform: translateY(0);
+    }
+
+    /* ================= DEMO LOGIN ================= */
+
+    .demo-box {
+        margin-top: 22px;
+
+        padding: 14px;
+
+        background: #f9fafb;
+
+        border: 1px solid #e5e7eb;
+
+        border-radius: 10px;
+
+        font-size: 13px;
+
+        color: #4b5563;
+    }
+
+    .demo-box strong {
+        color: #111827;
+    }
+
+    /* ================= SECURITY NOTE ================= */
+
+    .security-note {
+        margin-top: 20px;
+
+        text-align: center;
+
+        color: #6b7280;
+
+        font-size: 12px;
+    }
+
+    /* ================= MOBILE ================= */
+
+    @media (max-width: 600px) {
+
+        .login-card {
+            padding: 28px 22px;
+        }
+
+        .login-logo h1 {
+            font-size: 23px;
+        }
+
+    }
+
+</style>
+
+
+<div class="login-wrapper">
+
+    <div class="login-card">
+
+        <!-- ================= HEADER ================= -->
+
+        <div class="login-logo">
+
+            <div class="icon">
+                🔐
+            </div>
+
+            <h1>
+                DOCUVERIFY AI
+            </h1>
+
+            <p>
+                Smart Document Verification System
+            </p>
+
+        </div>
+
+
+        <!-- ================= ERROR ================= -->
+
+        {% if error %}
+
+        <div class="error-message">
+
+            ❌ {{ error }}
+
+        </div>
+
+        {% endif %}
+
+
+        <!-- ================= LOGIN FORM ================= -->
+
+        <form
+            method="POST"
+            action="{{ url_for('login') }}"
+            id="loginForm"
+        >
+
+            <!-- USERNAME -->
+
+            <div class="form-group">
+
+                <label for="username">
+                    Username
+                </label>
+
+                <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    class="form-input"
+                    maxlength="12"
+                    placeholder="Enter username"
+                    autocomplete="username"
+                    required
+                >
+
+                <div class="input-hint">
+
+                    Letters, numbers and special
+                    characters are allowed.
+
+                    <span
+                        class="counter"
+                        id="usernameCounter"
+                    >
+                        0/12
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- PASSWORD -->
+
+            <div class="form-group">
+
+                <label for="password">
+                    Password
+                </label>
+
+                <div class="input-wrapper">
+
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        class="form-input password-input"
+                        maxlength="8"
+                        placeholder="Enter password"
+                        autocomplete="current-password"
+                        required
+                    >
+
+                    <button
+                        type="button"
+                        class="show-password"
+                        id="togglePassword"
+                        aria-label="Show password"
+                    >
+                        👁️
+                    </button>
+
+                </div>
+
+                <div class="input-hint">
+
+                    Maximum 8 characters.
+                    Letters, numbers and special
+                    characters are allowed.
+
+                    <span
+                        class="counter"
+                        id="passwordCounter"
+                    >
+                        0/8
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- LOGIN BUTTON -->
+
+            <button
+                type="submit"
+                class="login-btn"
+            >
+                🔑 Login
+            </button>
+
+        </form>
+
+
+        <!-- ================= DEMO CREDENTIAL ================= -->
+
+        <div class="demo-box">
+
+            <strong>Demo Login</strong>
+
+            <br><br>
+
+            Username:
+            <strong>sarathkumar</strong>
+
+            <br>
+
+            Password:
+            <strong>Sarath12</strong>
+
+        </div>
+
+
+        <!-- ================= SECURITY ================= -->
+
+        <div class="security-note">
+
+            🔒 Your login information is processed
+            securely.
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    /* ================= USERNAME COUNTER ================= */
+
+    const usernameInput =
+        document.getElementById("username");
+
+    const usernameCounter =
+        document.getElementById("usernameCounter");
+
+
+    usernameInput.addEventListener(
+        "input",
+        function () {
+
+            usernameCounter.textContent =
+                this.value.length + "/12";
+
+        }
+    );
+
+
+    /* ================= PASSWORD COUNTER ================= */
+
+    const passwordInput =
+        document.getElementById("password");
+
+    const passwordCounter =
+        document.getElementById("passwordCounter");
+
+
+    passwordInput.addEventListener(
+        "input",
+        function () {
+
+            passwordCounter.textContent =
+                this.value.length + "/8";
+
+        }
+    );
+
+
+    /* ================= SHOW / HIDE PASSWORD ================= */
+
+    const togglePassword =
+        document.getElementById("togglePassword");
+
+
+    togglePassword.addEventListener(
+        "click",
+        function () {
+
+            if (
+                passwordInput.type === "password"
+            ) {
+
+                passwordInput.type = "text";
+
+                this.textContent = "🙈";
+
+                this.setAttribute(
+                    "aria-label",
+                    "Hide password"
+                );
+
+            } else {
+
+                passwordInput.type = "password";
+
+                this.textContent = "👁️";
+
+                this.setAttribute(
+                    "aria-label",
+                    "Show password"
+                );
+
+            }
+
+        }
+    );
+
+
+    /* ================= FORM VALIDATION ================= */
+
+    document
+        .getElementById("loginForm")
+        .addEventListener(
+            "submit",
+            function (event) {
+
+                const username =
+                    usernameInput.value;
+
+                const password =
+                    passwordInput.value;
+
+
+                if (username.length > 12) {
+
+                    event.preventDefault();
+
+                    alert(
+                        "Username must be maximum 12 characters."
+                    );
+
+                    return;
+
+                }
+
+
+                if (password.length > 8) {
+
+                    event.preventDefault();
+
+                    alert(
+                        "Password must be maximum 8 characters."
+                    );
+
+                    return;
+
+                }
+
+
+                if (username.length === 0) {
+
+                    event.preventDefault();
+
+                    alert(
+                        "Please enter username."
+                    );
+
+                    return;
+
+                }
+
+
+                if (password.length === 0) {
+
+                    event.preventDefault();
+
+                    alert(
+                        "Please enter password."
+                    );
+
+                    return;
+
+                }
+
+            }
+        );
+
+</script>
+
+{% endblock %}

@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>Document Details</title>
+
+<style>
+
+body {
+    margin: 0;
+
+    font-family: Arial, sans-serif;
+
+    background: #f4f7fb;
+
+    color: #1f2937;
+}
+
+.header {
+    background: #111827;
+
+    color: white;
+
+    padding: 20px 7%;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+}
+
+.logo {
+    font-size: 24px;
+
+    font-weight: bold;
+}
+
+.logo span {
+    color: #60a5fa;
+}
+
+.header a {
+    color: white;
+
+    text-decoration: none;
+
+    background: #2563eb;
+
+    padding: 10px 16px;
+
+    border-radius: 8px;
+}
+
+.container {
+    width: 92%;
+
+    max-width: 900px;
+
+    margin: 35px auto;
+}
+
+.card {
+    background: white;
+
+    padding: 28px;
+
+    margin-bottom: 22px;
+
+    border-radius: 14px;
+
+    box-shadow:
+        0 5px 18px
+        rgba(0,0,0,0.06);
+}
+
+.info {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 15px;
+}
+
+.item {
+    background: #f9fafb;
+
+    padding: 15px;
+
+    border-radius: 8px;
+}
+
+.score {
+    font-size: 55px;
+
+    font-weight: bold;
+
+    text-align: center;
+}
+
+.low {
+    color: #16a34a;
+}
+
+.medium {
+    color: #d97706;
+}
+
+.high {
+    color: #dc2626;
+}
+
+.finding {
+    padding: 12px;
+
+    margin-bottom: 8px;
+
+    background: #f3f4f6;
+
+    border-radius: 8px;
+}
+
+.btn {
+    display: inline-block;
+
+    color: white;
+
+    background: #2563eb;
+
+    text-decoration: none;
+
+    padding: 12px 18px;
+
+    border-radius: 8px;
+}
+
+@media (max-width: 600px) {
+
+    .info {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+
+<header class="header">
+
+    <div class="logo">
+        DOCUVERIFY <span>AI</span>
+    </div>
+
+    <a href="/dashboard">
+        Dashboard
+    </a>
+
+</header>
+
+
+<main class="container">
+
+
+<div class="card">
+
+    <h1>
+        Document Details
+    </h1>
+
+    <p>
+        <strong>
+            File Name:
+        </strong>
+
+        {{ document["filename"] }}
+    </p>
+
+    <p>
+        <strong>
+            Analyzed At:
+        </strong>
+
+        {{ document["analyzed_at"] }}
+    </p>
+
+</div>
+
+
+<div class="card">
+
+    <h2>
+        Risk Assessment
+    </h2>
+
+
+    <div
+        class="
+        score
+
+        {% if document['risk_level'] == 'LOW' %}
+            low
+        {% elif document['risk_level'] == 'MEDIUM' %}
+            medium
+        {% else %}
+            high
+        {% endif %}
+        "
+    >
+
+        {{ document["risk_score"] }}/100
+
+    </div>
+
+
+    <h2 style="text-align:center;">
+
+        {{ document["risk_level"] }}
+
+    </h2>
+
+</div>
+
+
+<div class="card">
+
+    <h2>
+        Analysis Findings
+    </h2>
+
+
+    {% if document["findings"] %}
+
+        {% for finding in document["findings"].split("\n") %}
+
+        <div class="finding">
+
+            ✓ {{ finding }}
+
+        </div>
+
+        {% endfor %}
+
+    {% else %}
+
+        <p>
+            No findings available.
+        </p>
+
+    {% endif %}
+
+</div>
+
+
+<div class="card">
+
+    <a
+        href="/dashboard"
+        class="btn"
+    >
+        ← Back to Dashboard
+    </a>
+
+    <a
+        href="/"
+        class="btn"
+    >
+        Analyze Another
+    </a>
+
+</div>
+
+
+</main>
+
+</body>
+
+</html>
