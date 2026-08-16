@@ -1,5 +1,10 @@
 Flask
-PyMuPDF
-python-docx
+gunicorn
+pandas
+numpy
+scikit-learn
+joblib
+reportlab
 Pillow
-pytesseract
+PyPDF2
+python-docx
